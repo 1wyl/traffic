@@ -1,0 +1,1799 @@
+%\documentclass[a4paper,12pt,twoside]{article}
+\documentclass[a4paper,12pt]{article}
+%宏包
+\usepackage{ctex}
+\usepackage{amsmath,amssymb}
+\usepackage{longtable}
+\usepackage{listings}
+\usepackage{graphicx,caption}
+\usepackage{float}
+\usepackage{stfloats}
+\usepackage{listings}
+\usepackage{color}
+
+\usepackage[left=25mm,right=20mm,top=25mm,bottom=20mm]{geometry}
+%代码展示设置
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+
+\lstset{frame=tb,
+	language=Python,
+	aboveskip=3mm,
+	belowskip=3mm,
+	showstringspaces=false,
+	columns=flexible,
+	basicstyle={\small\ttfamily},
+	numbers=left,
+	numberstyle=\tiny\color{gray},
+	keywordstyle=\color{blue},
+	commentstyle=\color{dkgreen},
+	stringstyle=\color{mauve},
+	breaklines=true,
+	breakatwhitespace=true,
+	tabsize=3,
+	columns=flexible
+}
+%公式按章排
+\numberwithin{equation}{section}
+%\makeatletter
+%\@addtoreset{equation}{section}
+%\makeatother
+\renewcommand\theequation{\arabic{section}-\arabic{equation}}
+\newcommand{\upcite}[1]{\textsuperscript{\textsuperscript{\cite{#1}}}}
+% Set the margins
+
+
+% Set the font and line spacing
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\usepackage{setspace}
+\setlength{\baselineskip}{20pt}
+%\setstretch{1.25}
+
+% Set the title format
+\usepackage{titlesec}
+\titleformat{\section}{\bfseries\fontsize{16pt}{19.2pt}\selectfont}{\thesection\quad}{0em}{}
+\titleformat{\subsection}{\bfseries\fontsize{15pt}{18pt}\selectfont}{\thesubsection\quad}{0em}{}
+\titleformat{\subsubsection}{\bfseries\fontsize{14pt}{16.8pt}\selectfont}{\thesubsubsection\quad}{0em}{}
+
+% Set the table of contents format
+\usepackage{tocloft}
+\renewcommand{\cftsecfont}{\fontsize{16pt}{19.2pt}\selectfont}
+\renewcommand{\cftsubsecfont}{\fontsize{15pt}{18pt}\selectfont}
+\renewcommand{\cftsubsubsecfont}{\fontsize{14pt}{16.8pt}\selectfont}
+%\renewcommand{\cftdot}{\normalfont\fontsize{14pt}{16pt}\selectfont.\space}
+\renewcommand{\contentsname}{\fontsize{16pt}{19.2pt}\selectfont\heiti {目\quad 录}}
+% Set the font and format of abstract and keywords
+\usepackage{abstract}
+%\renewcommand{\abstractnamefont}{\bfseries\fontsize{14pt}{16pt}\selectfont}
+%\renewcommand{\abstracttextfont}{\fontsize{12pt}{14pt}\selectfont\rmfamily}
+\providecommand{\keywords}[1]{\fontsize{14pt}{16.8pt}\selectfont\textbf{{KEY\ WORDS:}} #1}
+
+% Set the font and format of references
+%\usepackage{natbib}
+%\renewcommand{\bibsection}{\section*{\bibname}\markboth{\bibname}{\bibname}}
+%\renewcommand{\bibfont}{\fontsize{10pt}{12pt}\selectfont}
+%\setlength{\bibsep}{0pt plus 0.3ex}
+
+\begin{document}
+	
+	% Set the page numbering
+	\pagenumbering{Roman}
+	\setcounter{page}{1}
+	
+	% Set the title
+	\title{\fontsize{16pt}{19.2pt}\selectfont \heiti{基于路况信息实时采集系统的红绿灯设计}}
+	
+%	% Set the authors
+%	\author{\fontsize{14pt}{16pt}\selectfont 作者1\textsuperscript{1}, 作者2\textsuperscript{2}\\
+%		\fontsize{12pt}{14pt}\selectfont \textsuperscript{1}单位1，城市1，省1，国家1\\
+%		\fontsize{12pt}{14pt}\selectfont \textsuperscript{2}单位2，城市2，省2，国家2}
+%	
+	% Set the date
+	\date{}
+	
+	% Generate the title
+	\maketitle
+	
+	% Set the Chinese abstract
+	\songti
+	\begin{center}
+		\fontsize{15pt}{18pt}\selectfont \textbf{摘\ 要}
+	\end{center}
+	
+	\begin{spacing}{1.19}
+		\fontsize{14pt}{16.8pt}\selectfont
+	本文首先介绍了路况信息实时采集系统，通过该系统能够获取车辆位置信息，这是通过仿真模拟设计红绿灯的现实基础。接着采用数学建模的方法，用逐步分析的方法分析出各个方向的左直右车道的车辆在经过十字路口时的交错关系并据此选择了一种红绿灯轮换规则作为基础建立了道路模型。\par 
+	接着通过程序设计，实现了仿真模拟传统红绿灯道路模型下的汽车行驶过程，记录下对道路交通的100次模拟时长，得出720辆车通过道路模型的平均用时为459.2s。然后采用控制变量法，在保持车辆相同的初始数量和行车规则下，建立参数控制的红绿灯道路模型，通过改变统计车辆距离停止线范围得到不同的模拟时长，结果发现搜寻到的极小值点对应的平均模拟时长总大于600s，也大于459.2s，这表明轮换式的变灯规则本身就有较强合理性，通行效率优于打分式绿灯选择。\par 
+%	然后建立参数控制的红绿灯道路模型，通过比较相同数量的车辆通过道路模型的平均用时，判断最优的红绿灯设定方法。本文采用控制变量法，在保持车辆相同的初始数量和行车规则下，通过改变统计车辆距离停止线范围得到不同的模拟时长，结果发现搜寻到的极小值点对应的平均模拟时长总大于600s，也大于459.2s，这表明轮换式的变灯规则本身就有较强合理性，通行效率优于打分式绿灯选择。\par 
+	在后文中采用控制变量法，通过对10s到34s不同绿灯单次持续时长的100次模拟求平均值的方式求出模拟用时最短的绿灯单次持续时长。结论为该模型最佳绿灯持续时长为11s，其对应的平均模拟时长为416.89s，比同车辆初始条件下的27s绿灯持续时长的平均模拟结果434.51s节省4.4\%的时间，这表明绿灯单次持续时长是影响通行效率的因素之一。\par
+	此外还通过加装倒计时器的的方法，分析出车辆的刹车起始点距离从100m降为85m，同时将绿灯单次持续时长设置为11s，经过100次仿真模拟得到的平均模拟时长为410.31s，比不加装倒计时器，绿灯单次持续时长为27s的道路仿真模拟的通车时间减少了10.65\%的时间，表明加装倒计时器可以有效提高车辆通行效率。\par
+	在正文的最后一部分，总结了建模的思路，过程以及结果，分析了建模的优点和缺点，并且提出了一些改进措施。
+	%将智能红绿灯的应用场景从特殊情形逐渐推广到更符合实际的一般情形。通过代码模拟出交通图像并获得平均车速等参数，通过比较一般红绿灯与智能红绿灯下的车辆行驶参数得到了智能红绿灯具有更优的效果，有助于缓解交通拥堵的情况并加快车辆通行速率。在基础假设（---）下，其中在一般红绿灯区域中车辆行驶的平均速度为（---），在智能红绿灯覆盖的区域中车辆行驶的平均速度为（---）。
+	\end{spacing}
+	
+	% Set the keywords
+	%\keywords{智能红绿灯；数学建模；平均车速}
+	\noindent \fontsize{14pt}{16.8pt}\selectfont \heiti{关键词：}\fontsize{14pt}{16.8pt}\selectfont \songti {红绿灯设计，数学建模，仿真模拟，控制变量法，定步长搜索法}
+	% Set the English abstract
+	\newpage
+	\begin{center}
+		\fontsize{15pt}{18pt}\selectfont \textbf{Abstract}
+	\end{center}
+	
+	\begin{spacing}{1.08}
+		\fontsize{14pt}{16.8pt}\selectfont
+This paper firstly introduces the real-time gathering system of traffic information, through which the position of vehicles can be collected. This is the realistic basis of traffic light design through analogue simulation. Then the method of mathematical modeling is used to analyze the staggered relationship of the vehicles in the left and right lanes in each direction when passing through the intersection with the method of step by step analysis. Based on this, a traffic light rotation rule is set up as the basis to establish the road model. \par
+
+Then, through the program design, the vehicle driving process under the traditional traffic light road model was simulated, and 100 times of road traffic simulation time was recorded, and the average time of 720 vehicles passing through the road model was 459.2s. Then, control variable method was adopted to establish a traffic light road model controlled by parameters under the condition of maintaining the same initial number of vehicles and driving rules. Different simulation duration was obtained by changing the range of statistical vehicles' distance from the stop line. The results showed that the average simulation duration corresponding to the minimum point searched was greater than 600s and 459.2s respectively. This shows that the rule of rotating change light itself has strong rationality whose traffic efficiency is better than the fractional green choice rule's.\par
+
+In the following paper, the control variable method is adopted to calculate the single duration of green light with the shortest simulation time by averaging 100 times of the single duration of different green lights from 10s to 34s. The conclusion is that the optimal green duration of this model is 11s, and the corresponding average simulation time is 416.89s, which saves 4.4\% time compared with the average simulation result of green duration of 27s under the same vehicle initial condition of 434.51s, which indicates that the single green duration is one of the factors affecting the traffic efficiency. \par
+
+In addition, by adding a rewind timer, it is analyzed that the distance of the starting point of the vehicle brake is reduced from 100m to 85m, and the single duration of the green light is set to 11s. After 100 simulations, the average simulation time is 410.31s, which is better than that without a rewind timer. The traffic time of the road simulation with a single green light lasting for 27s is reduced by 10.65\%, which indicates that adding a countdown timer can effectively improve the traffic efficiency. \par
+
+In the last part of the text, it summarizes the idea, process and result of modeling, analyzes the advantages and disadvantages of modeling, and puts forward some improvement measures.
+\end{spacing}
+	% Set the keywords
+	\keywords{Traffic light design;Mathematical Modeling;analogue simulation;control variable method;Fixed-step search method}
+	\newpage
+	% Set the contents page
+	\tableofcontents
+	
+	\newpage
+	% Set the introduction
+	\setcounter{page}{1}
+	\pagenumbering{arabic}
+	\section{引言}
+	现代的互联网能够将信息以光速传播到世界各地，它对于方便全球人类沟通起到了重要的作用；而现代交通系统能够使人们短时间内到达世界各地，它是物质实体全球移动的重要基础。互联网与现代交通运输系统共同使地球村成为了现实。\par
+	虽然现代交通运输系统的运输速度永远达不到信息的光速传播那么快，但是它的运输效率还有巨大的可优化空间，道路交通作为交通运输系统中的一环对于交通运输系统的效率起着举足轻重的作用，如果能够有效提高道路交通运输效率，那么这对于整个交通运输系统的效率提升也能起到促进作用。\par
+	本文在市区经常发生堵车的背景下以及路况信息实时采集系统的理论依据下，采用数学建模的方法建立了一个正方形的数字化市区，并且用控制变量法和定步长搜索法使用Python对不同红绿灯设计的道路的通行效率进行仿真模拟，目的是通过改变红绿灯设计然后仿真模拟得到不同的模拟数据，并据此得出最优的智能红绿灯设计。\par
+	预期结果是使用智能红绿灯道路模型的通车效率优于传统红绿灯道路模型的通车效率。作用是通过仿真模拟证明了通过改变红绿灯设计提高通车效率的可行性并且给出具体方案，此外模拟程序还可以对其他红绿灯研究提供重要参考。\par
+	建模设想与突破点：作为智慧道路不应该仅在两个时期改变红绿灯策略，每个时刻都会根据实时道路信息采用最优变灯策略；同时应该安装倒计时器用来防止由于采用不同策略导致司机无法评估绿灯时长而出现意外闯红灯。\par
+		
+	理论和实践意义：通过使用优化设计的红绿灯能够提升运输效率，有利于打造一个富有活力的，运输高效的交通大国；使用优化设计的红绿灯能够减少车辆单位距离的碳排放量，有助于打造绿色的生态环境，也有助于实现碳中和目标。\par
+	
+	文献综述：论文基于移动终端的交通路况信息实时采集与显示系统和期刊基于移动终端的路况信息实时采集与显示系统都介绍了一种基于移动终端的实时路况信息采集和显示系统，该系统采集移动终端的速度和方向信息，并将其转换为道路上的浮动车流量，据此划分交通拥堵状况。服务器端以MySQL为数据库，采用Servlet技术开发，客户端采用jQuery Mobile + Html5技术设计为Web App，以适应不同的移动设备。交通路况的显示借助于百度地图，数据更新采用Ajax技术。该系统具有成本低、易维护的优点，可以提供实时路况数据。文章详细介绍了Ajax技术、jQuery Mobile + Html5设计、百度地图API等关键技术的应用，以及系统的组成和工作原理，数据采集和处理，系统的设计和实现等方面。测试结果表明，在4G网络及移动智能终端普及的今天，该系统获取实时路况信息成本低、准确度高，可缓解交通拥堵压力，同时也方便人们出行\upcite{ref1,ref2}。\par 	
+	基于有限差分法与变步长搜索法的炉温曲线设计主要研究了回流焊工作过程中的热量传递问题和炉温曲线的优化问题。首先对回焊炉内的热量进行分析，得出了炉内环境空气温度变化规律，并建立了PCB板中的热量传递模型。文章结合参数随温度变化的影响将整个PCB板运动过程分为5个阶段，并根据实验数据对多个传导影响因子、对流辐射叠加影响因子进行搜索求解，最终确定最大过炉速度以及设计理想的炉温曲线。文章详细介绍了模型建立过程，包括建立各个温区的数学模型、运用有限差分法求解焊接区域中心的温度变化情况和运用变步长搜索算法确定最优的炉温曲线。这项研究可为集成电路板等电子产品的生产提供参考依据，提高产品的质量。\upcite{ref3}\par
+	基于“卡口”测速数据的城市道路限速值合理性论证研究一文结合道路交通治安卡口监控系统的测速数据进行限速值合理性论证。最终得出以车辆 85\% 速度调整后的速度值作为限速值的结论，为重庆交通道路限速设计提供了理论依据。\upcite{ref4}\par
+	基于强化学习和计算机仿真的交通信号调度一文主要研究如何利用强化学习和计算机模拟技术控制交通信号，缓解城市交通拥堵问题。该研究使用了A3C算法来控制不同场景下的交通信号，包括单个和多个路口的恒定和变化的车流率。该研究还重新定义了状态空间，行动空间，奖励函数和评估指标，以优化A3C算法。通过模拟结果可以发现，该算法性能优于其他方法，可以减少车辆等待时间，从而缓解城市交通繁忙的情况。
+	文章还提供了强化学习，Q-Learning和策略梯度算法的综述及其在交通信号控制方面的应用。该研究最终得出结论，A3C算法具有高效性和卓越性能，可以减轻交通信号安排的压力，缓解城市道路交通拥堵问题。\upcite{ref5}
+	
+%	 	\bibitem{ref1}许鹏辉. 基于移动终端的交通路况信息实时采集与显示系统[D].南京理工大学,2017.
+%\bibitem{ref2}许鹏辉,郭玲,施盼.基于移动终端的路况信息实时采集与显示系统[J].计算机与现代化,2017,No.259(03):22-26.
+%	\bibitem{ref3}于增亮. 基于仿真环境驾驶员临界反应能力的研究[D].吉林大学,2005.
+%	\bibitem{ref4}张觉非，陈震.用Python实现深度学习框架[M].北京：人民邮电出版社，2020(10):18-23.
+%	\bibitem{ref5}林宇翔,王方霄,苏宇辰,李明奇.基于有限差分法与变步长搜索法的炉温曲线设计[J].实验科学与技术,2022,20(05):45-51.
+%	\bibitem{ref6}温健,慕冰,严秋实,王岩.基于“卡口”测速数据的城市道路限速值合理性论证研究[J].道路交通管理,2023(02):56-58.
+%	\bibitem{ref7}白家豪.道路限速区段划分方法的研究[J].产业与科技论坛,2022,21(23):54-56.
+%	\bibitem{ref8}王树凤,孙文盛,刘宗锋.车辆稳定换道时的侧向加速度分析[J].机械设计与制造,2020(07):17-20+24.DOI:10.19356/j.cnki.1001-3997.2020.07.005.
+%	\bibitem{ref9}刘长运.基于加速度信号的车辆行驶状态识别算法[J].湖北汽车工业学院学报,2018,32(04):32-34.
+%	\bibitem{ref10}黄海波,曹利坤,王学军.预动式交通路口的红绿灯优化设计思路——一种智能的红绿灯信号控制方法[J].广东公安科技,2022,30(03):53-55.
+%	\bibitem{ref11}张亚婉,胡洽锋,唐艳凤,黄信维.低峰期交通红绿灯减少候灯时间系统设计[J].机电工程技术,2021,50(06):155-157.
+%	\bibitem{ref12}程留.基于强化学习和计算机仿真的交通信号调度[D].大连理工大学,2021.DOI:10.26991/d.cnki.gdllu.2021.001567.
+%	\bibitem{ref13}王满力,张玉强.有关防止闯红绿灯的智能化设计方案[J].无线互联科技,2013(11):80.
+%	\bibitem{ref14}Aditi Agrawal,Rajeev Paulus. Intelligent traffic light design and control in smart cities: a survey on techniques and methodologies[J]. International Journal of Vehicle Information and Communication Systems,2020,5(4).
+
+%	研究目标、预期成果：研究目标是设计出面对不同道路情况（车流量，车流速度）都可以依据的红绿灯切换规则并且始终使在智慧交通系统区域内的所有车辆的整体通行效率最大化。
+%	同时还将考虑到小城镇中大货车惯性大，不易刹车的特性设计出安全且高效的红绿灯变灯方案。
+%	可行性论述：首先，在4G网络及移动智能终端普及的今天,服务器端以My SQL作为数据库,采用Servlet技术开发,客户端采用j Query Mobile+Html5技术设计为Web App以适应不同的移动设备,交通路况的显示借助于百度地图,数据更新采用AJAX技术的路况信息实时采集系统获取实时路况信息成本低、准确度高确保了可以准确的获取道路信息。
+
+%	最后，国外已有成功先例，说明这是一条走得通的智慧之路。
+%	成果应用：可以通过使用智能红绿灯打造智慧交通，进而打造智慧城市。
+%	注意：智能红绿灯应当是区域性的，而区域不宜过小，否则不足以产生协调提高交通效率的作用；同时区域不宜过大，以防被黑客入侵后使得整个大区域的交通完全瘫痪。\par
+
+%	\subsection{国内外研究现状}
+%		国内外研究现状：1991年美国国会通过ISTEA（陆上综合地面运输效率方案）；1998年通过“面向21世纪的运输平衡法案”。经过多年发展美国的智能控制率已经超过85\%。\par
+%	欧洲各国计划融合各个国家的道路交通基础设施从而实现欧洲国家的智能交通互联。
+%	目前国外较为成熟的智能交通系统有英国的绿信比、周期、相位差技术（SCOOT），悉尼的自适应交通控制系统（SCATS系统），日本智能感应红绿灯。\par
+%%	国内少数城市有分时段调节的红绿灯系统，高峰期采取一种变灯方案，非高峰期是另一种方案。还有城市安装了不够成熟的智能红绿灯被一些车主所诟病。%由于没有加装计时器导致智慧变灯的不规律特性使部分车主无法及时反应从而误闯红灯。\par
+%		可行性论述，在当今世界，4G网络的普及乃加上5G网络的推广以及智能移动终端的广泛应用使得路况信息实时采集系统能够以较低的成本获得准确的实时路况信息，在这样的背景下，智能红绿灯可以轻松通过调取路况信息实现智能化的提高交通通行效率。
+%	其次，一片区域内的所有红绿灯是相互关联的，完全可以通过某种方式互相协调达到单位时间车流量最大化的效果。\par
+%%	\subsection{研究目的和意义}
+
+%	\subsection{研究内容和方法}
+
+%	1.本文介绍了一种基于移动终端的实时路况信息采集和显示系统，该系统采集移动终端的速度和方向信息，并将其转换为道路上的浮动车流量，据此划分交通拥堵状况。服务器端以MySQL为数据库，采用Servlet技术开发，客户端采用jQuery Mobile + Html5技术设计为Web App，以适应不同的移动设备。交通路况的显示借助于百度地图，数据更新采用AJAX技术。该系统具有成本低、易维护的优点，可以提供实时路况数据。文章详细介绍了AJAX技术、jQuery Mobile + Html5设计、百度地图API等关键技术的应用，以及系统的组成和工作原理，数据采集和处理，系统的设计和实现等方面。测试结果表明，在4G网络及移动智能终端普及的今天，该系统获取实时路况信息成本低、准确度高，可缓解交通拥堵压力，同时也方便人们出行。\cite{ref1}
+%	2.
+%	这篇文献介绍了一种基于机器视觉的智能红绿灯系统，该系统可实时监控路口交通状况，根据路口车辆的变化进行实时调整，在减缓交通拥堵、提高道路通畅度和减少尾气排放等方面发挥了重要作用。文章详细介绍了系统的逻辑流程、功能实现，以及机器视觉和图像处理的相应方法。该系统能够减少大量的油耗和二氧化碳排放，对环境污染的减轻具有很大的帮助；同时，该系统也具有很广泛的应用前景，尤其是针对城市道路拥堵和机动车辆尾气排放这一问题。总的来说，该文献提出的基于机器视觉的智能红绿灯系统是一种有效的交通管理方式，具有很强的实用性和推广价值。
+	% Set the main body
+	%\section{可行性论述}
+	\section{路况信息实时采集系统简介}
+	路况信息实时采集系统是获取道路信息的基础也是仿真模拟的基础。路况信息实时采集系统使用了Ajax，jQuery\ Mobile 和HTML5技术，被设计成Web\ App的形式，它能够调用HTML5里的 Geolocation\ API 获取使用者的地理位置信息。路况信息实时采集系统基于Tomcat服务器，MySQL数据库，无线通信等服务把位置信息存储，加工，然后将其与从其他用户收集到的地理信息进行汇总分析，得出道路的实时情况，最终再通过调用百度地图的API，把分析出的路况信息在地图上进行展示。\par 
+	其中Ajax指的是一种网页开发技术，它用于创建交互式应用；jQuery\ Mobile是一款JavaScript类的库框架，它是开源的，能够给不同平台提供统一的UI框架；Web\ App指的是使用网页技术开发出的在浏览器上运行的App。\upcite{ref1,ref2}\par 
+	百度API是一套基于百度地图服务的应用程序接口，包括Web服务API，Android\ SDK、iOS\ SDK、定位SDK、JavaScript\ API等多种开发工具和服务。使用百度地图API开发地图服务功能时，一般要包括Web服务器、百度地图服务器、数据库、客户端等。
+%	以及系统的组成和工作原理，数据采集和处理，系统的设计和实现等方面。\par
+	JSON是轻量级的数据交换格式，它能够与Java基本类型相互解析。XML是另一种主流数据交换语言，可以标记电子文档。JSON与XML相比，具有节约手机计算资源，减小网络数据传输时长，提高传输速度的优点。\par
+	此外该系统有低成本、维护方便的优点。经过测试，在4G网络和移动终端普及的基础上，该系统获取实时路况信息的不仅成本低而且准确度高。使用该系统一方面能够缓解交通拥堵压力，另一方面也能方便人们选择出行路径。\par
+	通过路况信息实时采集系统就可以得到当前道路车辆的位置，速度信息，在此基础上仿真模拟的现实依据已经充分。
+%	基于移动终端的实时路况信息采集和显示系统，该系统采集移动终端的速度和方向信息，并将其转换为道路上的浮动车流量，据此划分交通拥堵状况。服务器端以MySQL为数据库，采用Servlet技术开发，客户端采用jQuery Mobile + Html5技术设计为Web App，以适应不同的移动设备。交通路况的显示借助于百度地图，数据更新采用AJAX技术。该系统具有成本低、易维护的优点，可以提供实时路况数据。文章详细介绍了AJAX技术、jQuery Mobile + Html5设计、百度地图API等关键技术的应用，以及系统的组成和工作原理，数据采集和处理，系统的设计和实现等方面。测试结果表明，在4G网络及移动智能终端普及的今天，该系统获取实时路况信息成本低、准确度高，可缓解交通拥堵压力，同时也方便人们出行。\cite{ref1}
+
+	%\subsection{国外建设方法}
+	
+	\section{数学建模}
+	\subsection{传统红绿灯道路模型}
+%	模型一是模拟传统红绿灯的一个模型，在这个模型中，每个十字路口的红绿灯都按照相同的已设定好的规律进行红绿变换，变灯规则不根据当前道路的车辆情况进行自动调整。给模型对交通情况适当进行了简化，即不考虑行人对汽车交通的影响。
+非智能红绿灯道路模型的红绿灯变化只跟时间有关，变化规律是固定的。具体变化规律在基本假设的基础上由逐步分析得到，接着进行程序模拟得到相关数据。
+	\subsubsection{模型假设}
+	\begin{enumerate}
+		\item 假设在距离路口停止线超过100米时，车辆在保证适当车距的前提下尽可能以最高限速行驶。
+		\item 假设区域道路限速为$17m/s$。
+		\item 车辆近似为质点。
+		\item 假设车辆在距离停止线$100m$时开始减速。
+		\item 假设所有车辆不会超车。
+		\item 假设行人不对车辆右转产生影响。
+		\item 假设车辆可以左转或直行时，斑马线上已经没有行人。
+		\item 假设每个路口的红绿灯按照同一种固定程序运作不受车辆影响。
+		\item 假设汽车变道的时间可以忽略。
+		\item 假设车辆在进行转弯时的路径为标准的四分之一圆弧。
+		\item 假设每个路口在相同方向的红绿灯是同步的且按照顺时针方向变换出新的绿灯。
+		\item 假设车辆经过路口时，按照原速无法通过路口，它会降速等红灯而不是提速通过绿灯。
+		\item 假设距离路口停止线$20m$以内时，$6m/s$为理想速度。
+		\item 假设加速度绝对值上限为$2m/s^2$。
+	\end{enumerate}
+	
+	\subsubsection{符号说明}
+	\setlength\LTleft{0pt}
+	\setlength{\tabcolsep}{25pt}
+	\begin{longtable}{ccc}
+		\\\hline
+%		\textbf{序号}&
+\textbf{符号}&\textbf{含义}&\textbf{单位}\\
+		\hline
+%		$4$&$l_r$&道路长度&$m$\\\hline
+%		$5$&$d_c$&车辆与前车距离&$m$\\\hline
+%		$6$&$w$&路口宽度&$m$\\\hline
+%		$7$&$r_1$&左转半径&$m$\\\hline
+%		$8$&$r_2$&右转半径&$m$\\\hline
+%		$9$&$t_3$&绿灯持续时间&$s$\\\hline
+%		$10$&$t_4$&黄灯倒计时长&$s$\\\hline
+%		$11$&$v_1$&车速&$m\cdot s^{-1}$\\\hline
+%		$12$&$v_2$&前车车速&$m\cdot s^{-1}$\\\hline
+%		$13$&$a_1$&车加速度&$m\cdot s^{-2}$\\\hline
+%		$14$&$a_2$&前车加速度&$m\cdot s^{-2}$\\\hline
+%		$15$&
+		$r_1$&左转半径&$m$\\\hline
+		$r_2$&右转半径&$m$\\\hline
+		$w_r$&路口宽度&$m$\\\hline
+		$t_1$&绿灯单次持续时长&$s$\\\hline
+		$t_2$&黄灯单次持续时长&$s$\\\hline
+		$T$&红绿灯变化周期&$s$\\\hline
+		$v$&车速&$m\cdot s^{-1}$\\\hline
+		$a$&车加速度&$m\cdot s^{-2}$\\\hline
+		$\Delta t$&数据更新的单位时间&$m$\\\hline
+		$d_c$&与前车距离差&$m$\\\hline
+		$d_v$&与前车速度差&$m\cdot s^{-1}$\\\hline
+		$d_s$&车辆距离停止线距离&$m$\\\hline
+		$d_l$&车辆经过路口时需要行进的路程&$m$\\\hline
+		$a_0$&加速度绝对值上限&$m\cdot s^{-2}$\\\hline
+		$v_l$&道路最高限速&$m\cdot s^{-1}$\\\hline
+		$v_c$&停止线20m内限速&$m\cdot s^{-1}$\\\hline
+	\end{longtable}
+
+	\subsubsection{道路模型}
+	首先建立一个道路模型用来模拟市区道路，这条虚拟道路的构想如下：它在一个$4944m\times 4944m$的大正方形区域中,在这片大正方形区域中包含了正方形的住宅区，它们有$4\times 4$共计$16$个，每一个住宅区的大小为$1200m\times 1200m$,它们均匀地分布在大正方形区域中，除去这些正方形的住宅区域，在大正方形区域中剩下的部分就是汽车通行道路，将位于同一条直线上的汽车通行道路视作一个整体，那么一共有$6$条汽车通行道路，其中有三条东西方向的汽车通行道路，还有三条南北方向的汽车通行道路，这些道路一共有$3\times 3$共计$9$个交叉部分，这$9$个交叉部分就是十字路口。\par
+	由于每条汽车通行道路宽为$48m$,所以这$9$个交叉路口的每一个都是一个$48m\times 48m$的正方形区域。
+	此外，每个汽车通行道路都有两个通行方向，每个通行方向的总宽为$24m$，这两个通行方向所指向的单位向量夹角为$180°$,如东西方向的汽车通行道路有两个行车方向，其中一个方向是由西向东，另一个方向则是由东向西。由于道路模型是基于中华人民共和国的道路规则所进行的模拟设计，所以在每个车辆以当前行驶方向为前方的视角下，与之行驶方向相反的车辆位于其左侧。\par
+	每个汽车通行道路都有两个通行方向，而每个通行方向又有三个车道，分别是直行车道，左转车道和右转车道，这些不同车道的车辆在遇到下一个十字路口时会驶入不同的方向，直行车道的车辆会在直行灯为绿灯时直行，左转车道的车辆会在左转灯为绿灯时左转，右转车道的车辆会在右转灯为绿灯时右转。\par
+	从在整体来看，大正方形区域有$9$个十字路口，在大正方形区域的最外侧，每条边上都有三个连接外部的道路进出口，即在每个边上都有$3$个进口和$3$个出口，这三个进口和三个出口是一一对应的，一条汽车通行道路在一个边就会产生一对进出口，这对进出口的行驶方向是相反的，驶入正方形区域的是进口，驶出正方形区域的是出口。可以通过$4\times 3$得出整个大正方形区域共有$12$个进口和$12$个出口。\par
+	图1为该道路模型的图示，黑色区域为住宅区，白色区域为道路，用黄色边线围起来的正方形区域是十字路口。\par
+%	\begin{figure}[!ht]
+%		\centering
+%		\includegraphics[scale=0.4]{图1.png}\caption{大正方形交通区域}
+%	\end{figure}
+	接下来是对十字路口的模型建立，由于十字路口的通行时机受到红绿灯的调控，所以应当首先分析出在模型假设下的红绿灯的基本特点。可以通过逐步分析和分类讨论的数学方法进行分析。\par 
+	首先在一个十字路口有来自四个方向，每个方向有三个车道共$4\times 3$为$12$种行驶路线。将这些路线在十字路口的运动轨迹用直线或曲线记录下来就可以得到一个十字路口车辆路线图，通过这些线路的图像以及行驶路线发生交错的车辆不能同时发车以避免发生车辆碰撞的基本常识就可以逐步推断出红绿灯的基本规则,如图2所示。\par
+		\begin{figure}[htbp]
+		\centering
+		\begin{minipage}[t]{0.48\textwidth}
+			\centering
+			\includegraphics[scale=0.4]{图1.png}
+			%\label{tu1}
+			\caption{大正方形交通区域}
+		\end{minipage}
+		\begin{minipage}[t]{0.48\textwidth}
+			\centering
+			\includegraphics[scale=0.4]{图2.png}
+			\caption{十字路口交通路线图}
+			%\label{tu2}
+		\end{minipage}
+	\end{figure}
+%	\begin{figure}[!ht]
+%		\centering
+%		\includegraphics[scale=0.4]{图2.png}\caption{十字路口交通路线图}
+%	\end{figure}
+	接着从十字路口车辆路线图可以看出在路口进行右转的车辆不与其他任何路线产生交叉，所以可以首先规定在该模拟道路区域内的十字路口，右转方向的红绿灯始终保持为绿色可通行状态，接下来则只需分析直行灯和左转灯的关系。
+	然后从直行方向的交通灯入手，直行灯总有状态为绿灯的时候，可以首先将直行灯确定为绿灯状态，在此基础上进行进一步分析。以从南向北的直行灯为绿灯为例，此时由东向西的左转路线，东西方向的直行路线，由北向南的左转路线都与从南向北的直行路线有交叉，所以可以确定出$1+2+1$共$4$个交通灯为红灯。直行与左转的交通灯一共有$8$个，除去$1$个作为分析基础的绿灯和$4$个分析出的红灯，只剩下三个交通灯待确定，为了提高交通效率，剩下的交通灯是绿灯的状态越多越好。这三个交通灯分别是从北向南的直行灯，从南向北左转灯和由西向东的左转路线。这三个交通灯所对应的交通路线都与从南向北的直行灯对应的交通路线没有交叉，但是它们却相互交叉，所以这三个交通灯只能有一个绿灯。\par
+	若从北向南的直行灯为绿灯，则从南向北左转灯和由西向东的左转灯为红灯，见图3，这时由于结论中缺少左转灯为绿灯的情况，所以还需进行一次在左转灯为绿灯的基础上进行的交通灯状态分析。将南向北左转灯为绿灯作为基础，再次运用上述的逐步分析法可以得到结论，只有从南向北直行灯或由东向西的直行灯为绿灯或从北向南的左转灯为绿灯，其它左转和直行的交通灯都为红灯。由于从南向北直行灯为绿灯和由东向西的直行灯为绿灯时的情形与上一层讨论的第二种情形或第三种相同，所以选择从北向南的左转灯为绿灯，如图4所示。此时可得出第一种情况的交通灯规则为的直行灯和左转灯轮换变为绿灯。\par
+	\begin{figure}[htbp]
+		\centering
+		\begin{minipage}[t]{0.48\textwidth}
+			\centering
+			\includegraphics[width=7cm]{图3.png}
+			%\label{tu1}
+			\caption{南北直行绿灯}
+		\end{minipage}
+		\begin{minipage}[t]{0.48\textwidth}
+			\centering
+			\includegraphics[width=7cm]{图4.png}
+			\caption{南北左转绿灯}
+		%\label{tu2}
+		\end{minipage}
+	\end{figure}
+	若从南向北的左转灯或由西向东的左转灯为绿灯，则同时出现了直行和左转为绿灯的情况，通过交通四个方向的交通灯的轮流变换就可以实现每条车道的车辆通行，见图\ref{tu5}、\ref{tu6}。\par
+	\begin{figure}[H]
+		\centering
+		\begin{minipage}[t]{0.48\textwidth}
+			\centering
+			\includegraphics[width=7cm]{图5.png}
+			\caption{南北直行与左转绿灯}
+			\label{tu5}
+		\end{minipage}
+		\begin{minipage}[t]{0.48\textwidth}
+			\centering
+			\includegraphics[width=7cm]{图6.png}
+			\caption{南北直行与由西向东绿灯}
+			\label{tu6}
+		\end{minipage}
+	\end{figure}
+	对同一直行灯这三种变灯方式都需进行$4$次轮换变回绿灯，所以采取任何一种都是等效的，程序采用第二种情形即图5所示。\par
+	不排除直行灯和左转灯变灯时有时间差出现情形一、情形二与情形三交替产生的情况，事实上当红绿灯直行灯和左转灯变灯的时间差为0时，即为情形二或情形三中的一种，而情形二与情形三在通行效率上等效，所以采用情形二的规则结论不失一般性。\par
+	
+	\subsubsection{车辆模型}
+	整个模型运作分为四大步骤。\par
+	\textbf{Step1}:定义车类，车类包含$11$个属性，它们分别是方向$direction$，坐标$coordinate$，车道$serial$，距离停止线的距离$disstopline$，经过十字路口的行驶路程$dislimitation$，红绿灯颜色$light$，方向集合$lis$，速度$speed$，加速度$acceleration$，与前方车辆距离$d_c$，与前方车辆速度差$d_v$。$d_c$，$d_v$，$speed$，$acceleration$的默认值为$T=0$时刻的数值，分别为$50$，$0$，$17$，$0$。\par
+	属性的作用与关系：其中$direction$，$coordinate$，$serial$，$disstopline$属性起到了定位的作用，$lis$属性起到确定行进路线的作用，$speed$主要起更新定位的作用，$acceleration$决定这$speed$在下一时刻的大小，而$d_v$，$d_c$，$disstopline$，$light$又影响着$acceleration$的大小。\par
+	本文以大正方形区域的中心为原点，正东为$x$轴正方向，正北为$y$轴正方向建立平面直角坐标系，在此基础上$direction$有四种方向分别是$[1,0]$，$[-1,0]$，$[0,-1]$，$[0,1]$。\par
+%	\begin{figure}[!ht]
+%		\centering
+%		\includegraphics[scale=0.4]{图8.png}\caption{建立直角坐标系}
+%	\end{figure}
+	$coordinate$则是在$direction$确定的基础上，分为东西和南北两套编号，由西向东道路和由东向西道路在坐标系下的位置相对一致，由南向北道路和由北向南道路在坐标系下的位置相对一致。由此确定对$direction=[1,0]$或$direction=[-1,0]$的道路，$coordinate$的横坐标取值范围是$[-2,-1,1,2]$，纵坐标取值范围是$[-1,0,1]$；对$direction=[0,1]$或$direction=[0,-1]$的道路，$coordinate$的横坐标取值范围是$[-1,0,1]$，纵坐标取值范围是$[-2,-1,1,2]$。图8中橙红色部分为$T=0$时刻车辆位置，图9到图12中标蓝的部分即为相应方向的道路。\par
+	
+%	\begin{figure}[!ht]
+%		\centering
+%		\includegraphics[scale=0.2]{图7.png}\caption{车辆初始位置示意图}
+%	\end{figure}
+	\begin{figure}[H]
+	\centering
+	\begin{minipage}[t]{0.48\textwidth}
+		\centering
+		\includegraphics[width=7cm]{图8.png}
+		\caption{建立直角坐标系}
+%		%\label{tu1}
+%		\caption{由西向东道路}
+	\end{minipage}
+	\begin{minipage}[t]{0.48\textwidth}
+		\centering
+		\includegraphics[width=7cm]{图7.png}
+		\caption{车辆初始位置示意图}
+%		\caption{由东向西道路}
+		%\label{tu2}
+	\end{minipage}
+\end{figure}
+	\begin{figure}[H]
+		\centering
+		\begin{minipage}[t]{0.48\textwidth}
+			\centering
+			\includegraphics[width=7cm]{正东.png}
+			%\label{tu1}
+			\caption{由西向东道路}
+		\end{minipage}
+		\begin{minipage}[t]{0.48\textwidth}
+			\centering
+			\includegraphics[width=7cm]{正西.png}
+			\caption{由东向西道路}
+			%\label{tu2}
+		\end{minipage}
+	\end{figure}
+	\begin{figure}[H]
+		\centering
+		\begin{minipage}[t]{0.48\textwidth}
+			\centering
+			\includegraphics[width=7cm]{正北.png}
+			%\label{tu1}
+			\caption{由南向北道路}
+		\end{minipage}
+		\begin{minipage}[t]{0.48\textwidth}
+			\centering
+			\includegraphics[width=7cm]{正南.png}
+			\caption{由北向南道路}
+			%\label{tu2}
+		\end{minipage}
+	\end{figure}
+%\vspace{-3.5cm}
+		\textbf{Step2}:每个路口产生$60$辆车辆，每个车辆有两个确定的属性：$direction$和$coordinate$。\par
+	\textbf{Step3}:编写初始化文件$initialize.py$，文件包含主函数$initialize$和其它在主函数中被调用的函数，主函数包含一个参数$self$，对于传入参数的车辆，会对车的其它属性进行初始化，首先会在$makelis$中调用$random$函数，在与入口成对的出口之外的$11$个出口中选择一个作为目标出口；接着编写一个$listmaker$函数，根据入口和出口确定$lis$属性，在$makelis$中调用$listmaker$即可确定车辆行驶路线；然后根据$lis$的第一个元素值确定$serial$，根据$serial$，确定$dislimitation$，再根据$direction$和$serial$，调用$makelight$函数确定$T=0$时的红绿灯颜色。最后在定义车类时，$d_c$，$d_v$，$speed$，$acceleration$的默认值为$T=0$时刻的数值，分别为$50$，$0$，$17$，$0$，不需要在初始化文件的函数中对其定值。$disstopline$属性需要在运行初始化函数后结合$serial$单独定值。\par
+	\textbf{Step4}:编写更新文件$update.py$，首先由上一时刻$acceleration$更新$speed$，然后更新$disstopline$，如果$disstopline>0$，则只需要更新$light$，否则先更新$lis$，再判断$lis$是否为空，若$lis$为空则可计算时长，若$lis$不为空，再依次更新$coordinate$，$direction$，$serial$，$disstopline$，$dislimitation$，$light$；然后判断$cars$是否为空，若为空则结束；否则接着对首轮更新的$cars$进行重组，将同一车道的车辆按照$disstopline$的大小从小到大排序；最后更新$d_c$,$d_v$,$acceleration$。
+		\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.5]{非智能模拟流程图.png}\caption{传统红绿灯道路模拟}
+		\label{非智能模拟流程}
+	\end{figure}
+	\subsubsection{数值设定与计算}
+	\noindent 对于左转的车辆，$d_l=r_1\cdot \frac{2\pi}{4}=14\pi$\\
+	对于直行的车辆，$d_l=w_r=48$\\
+	对于右转的车辆，$d_l=r_2\cdot\frac{2\pi}{4}=2\pi$\\
+	红绿灯一轮周期$T=(t_1+t_2)\cdot 4=120$\\
+	加速度绝对值上限$a_0=2$\\
+	道路最高限速$v_l=17$\upcite{ref4,ref6}\\
+	距离停止线$20m$以内限速$v_c=6$\\
+	\subsubsection{加速度更新公式}
+	\noindent 一、对于当前车道第一辆车：\\
+	1.当$d_s>100$时： 
+	\begin{equation}
+		a=\left\{\begin{array}{lll}
+			\frac{v_l-v}{\Delta t}&,&v_l-v<a_0\Delta t\\
+			a_0&,&v_l-v\geq a_0\Delta t
+		\end{array}\right.
+	\end{equation}
+	2.当$20\leq d_s\leq 100$时：
+	\begin{equation}
+		a=\left\{\begin{array}{lll}
+		\frac{v_c-v}{\Delta t}&,&\lvert v_c-v\rvert \leq a_0\Delta t\\
+		a_0\cdot sgn(v_c-v)&,&\lvert v_c-v\rvert > a_0\Delta t
+	\end{array}\right.
+\end{equation}
+	3.当$0< d_s< 20$且为绿灯时：
+	\begin{equation}
+		a=\left\{\begin{array}{lll}
+		\frac{v_c-v}{\Delta t}&,&\lvert v_c-v\rvert \leq a_0\Delta t\\
+		a_0\cdot sgn(v_c-v)&,&\lvert v_c-v\rvert > a_0\Delta t
+	\end{array}\right.
+\end{equation}
+	4.当$0< d_s< 20$且为黄灯或红灯时：
+	\begin{equation}
+		a=\left\{\begin{array}{lll}
+		-\frac{v}{\Delta t}&,&v \leq a_0\Delta t\\
+		-a_0&,&v > a_0\Delta t
+	\end{array}\right.
+\end{equation}
+公式内涵：在距离停止线超过$100m$车辆尽可能加速到道路最大限速$v_l$行驶且加速度不超过加速度绝对值上限$a_0$；距离停止线$20m$到$100m$范围内时，车辆逐渐减速到距离停止线$20m$以内的限速$v_c$，且减速加速度绝对值不超过加速度绝对值上限$a_0$；距离停止线$20m$以内时，观察红绿灯状态，如果是绿灯，就通过加减速以速度$v_c$通过，且加速度绝对值不超过加速度绝对值上限$a_0$，如果是黄灯或红灯，就减速到$0$，且加速度绝对值不超过加速度绝对值上限$a_0$。\upcite{ref7,ref8}\\
+	二、对于车道上的非首辆车：\\
+	1.当$(d_c-3v)\cdot d_v<0$时
+	\begin{equation}
+		a=\left\{\begin{array}{lll}
+	-\frac{d_v}{\Delta t}&,&\lvert d_v\rvert<2\Delta t\\
+	-a_0\cdot sgn(d_v)&,&\lvert d_v\rvert\geq 2\Delta t
+	\end{array}\right.
+\end{equation}
+	2.当$(d_c-3v)\cdot d_v\geq 0$时
+	\begin{equation}
+		a=0
+\end{equation}
+	公式内涵：将三倍车速定义为标准车距，如果速度差和距离差异号，则在加速度绝对值不超过加速度绝对值上限$a_0$的前提下通过加速或减速逐渐恢复标准车距。如果速度差和距离差同号或有一个为$0$，则不需要改变速度，即加速度为$0$。
+%	3.当$20\leq d_c\leq 100$并且$v\leq 6$时：
+%	$$a=\left\{\begin{array}{lll}
+%		\frac{v_c-v}{\Delta t}&,&v_c-v < 2\Delta t\\
+%		2&,&v_c-v\geq 2\Delta t
+%	\end{array}\right.$$
+	
+%	如果车辆是该道路中的第一辆车，则加速度$a=\left\{\begin{array}{lll}
+%			         \frac{17-v}{\Delta t},\frac{17-v}{\Delta t}<2\\
+%				2,\frac{17-v}{\Delta t}\geq 2
+%				\end{array}\right.$
+%		车子具有车速和加速度的属性,在距离十字路口超过$200m$时，这两个属性受到前车车速和加速度以及当前车距的影响。	
+%			定义标准车距：
+%		\begin{equation}
+%			d_{c0}=\left\{
+%		\begin{array}{lll}
+%			3v_1,v_1\geq 0.5m\cdot s^{-1}\\
+%			1.5m,v_1<0.5m\cdot s^{-1}
+%		\end{array}\right.
+%	\end{equation}
+%		车加速度和当前车距与车速，前车车速的关系分析：
+%		根据假设，车辆以一种均匀的加速度实现标准车距，不妨考虑其为匀变速运动。\par
+%		现考虑$v_1>v_2,d_c>d_c0$的情形，由相对性原理，可以将此运动视作一辆以初速度为$v_1-v_2$小车在匀减速的条件下行驶$d_c-d_{c0}$距离。由此匀减速运动公式得：
+%		\begin{equation}
+%			\left\{
+%			\begin{array}{lll}
+%				d_c-d_{c0}=\frac{1}{2}a_1t^2\\
+%				0-(v_1-v_2)=a_1t\\
+%				t>0
+%			\end{array}\right.
+%		\end{equation}
+%	通过消元法消去$t$得到
+%	\begin{equation}
+%		a_1=-\frac{(v_1-v_2)^2}{2(d_c-d_{c0})}
+%	\end{equation}
+%	对于$v_1<v_2,d_c<d_c0$的情形，同样可以由相对性原理等效为一辆静止小车匀加速到$v_2-v_1$并且刚好行驶了$d_{c0}-d_c$距离的情况，
+%	由此匀减速运动公式得：
+%	\begin{equation}
+%		\left\{
+%		\begin{array}{lll}
+%			d_{c0}-d_c=\frac{1}{2}a_1t^2\\
+%			v_2-v_1=a_1t\\
+%			t>0
+%		\end{array}\right.
+%	\end{equation}
+%	接着同样采用消元法可以求得加速度：
+%	\begin{equation}
+%		a_1=\frac{(v_1-v_2)^2}{2(d_{c0}-d_c)}
+%	\end{equation}
+%对于$v_1>v_2,d_c\leq d_c0$的情形，由相对性原理可将其等效为一辆以$v_1-v_2$速度向前行驶的小车通过变加速运动处于其后方$d_{c0}-d_c$的位点，并且到达位点时速度为$0$，不难分析出要想实现这个要求就需要经过先减速后反向加速再减速，在这个过程中，先减速后反向加速的加速度变化方向是一致朝后的，而反向的减速过程的加速度方向是朝向起始速度的。考虑到使用的是差分模型，只考虑极短时间$\Delta t$内的加速度情况，所以只需给定一个反向的加速度，不用再考虑反向减速的过程。不妨假设反向的加速度为$v_2-v_1$，加速度小于$0$表示加速度方向与速度方向相反。\par
+%对于$v_1<v_2,d_c\geq d_c0$的情形，假定$v_1,v_2$的方向为正方向，由相对性原理可将其等效为一辆以$v_2-v_1$速度向负方向行驶的小车通过变加速运动处于其后方$d_c-d_{c0}$的位点，并且到达位点时速度为$0$，不难分析出要想实现这个要求就需要经过先减速后反向加速再减速，在这个过程中，先减速后反向加速的加速度变化方向是一致朝正方向的，而反向的减速过程的加速度方向是朝向起始速度的。考虑到使用的是差分模型，只考虑极短时间$\delta t$内的加速度情况，所以只需要一个反向的加速度，不用再考虑反向减速的过程。不妨假设反向的加速度为$v_2-v_1$，加速度大于$0$表示加速度方向与正方向相同。\par
+%加速度的导数为一个常数。即该运动为匀变加速运动，于是则可以判断出速度时间图像为一个二次曲线，见图6，由于过$(0,v_1-v_2)$则可以得到曲线方程：$at^2+bt+v_1-v_2,a>0$，其中a的大小可以决定完成这个等效运动的时长，a越大，则完成越快，不妨取$a$为$1$，则曲线方程变为$t^2+bt+v_1-v_2,a>0$,存在一个未知数$b$，可以利用定积分求得阴影面积的代数和，再由代数和为$-(d_{c0}-d_c)$解出$b$，通过对二次曲线求导即可得出加速度$a_1=2t+b$。\par
+%由求根公式可以得出该二次曲线与横轴的交点中横坐标更大的那个交点为$(\frac{-b+\sqrt{b^2-4(v_1-v_2)}}{2},0)$,设$g(b)=\frac{-b+\sqrt{b^2-4(v_1-v_2)}}{2}$,$f(t)=t^2+bt+v_1-v_2$，则阴影面积的代数和满足：
+%\begin{equation}
+%	S=\int_{0}^{g(b)}f(t)dt=-(d_{c0}-d_c)
+%\end{equation}
+%联立两式并简单化简，即
+%\begin{equation}
+%	\left\{ \begin{array}{lll}
+%		g(b)=\frac{-b+\sqrt{b^2-4(v_1-v_2)}}{2}\\
+%		\frac{1}{3}g(b)^3+\frac{1}{2}bg(b)^2+(v_1-v_2)g(b)=d_c-d_{c0}
+%	\end{array}\right.
+%\end{equation}
+
+%当车辆距离十字路口在$200m$时，车辆在之后的$100m$逐渐减速到$30km/h$，当距离十字路口不到$100m$时，车辆的属性还将受到红绿灯状态的影响。若当前车道对应的交通灯为黄灯或红灯，则跟着前车逐渐将车速减为$0$，若当前车道对应的交通灯为绿灯，则按照限速为$30km/h$的情况应用无红绿灯的数学关系式。\par
+%对于停止在红灯前的第一辆车辆，当绿灯亮起时，将以$2m/s^2$的加速度逐渐加速直到达到限速标准或者与前车车距小于标准车距。下一时刻的车速与当前车速和车加速度的关系：
+%\begin{equation}
+%	v_1^{'}=v_1+a_1\cdot \Delta t
+%\end{equation}
+%		
+\subsubsection{程序模拟}
+\begin{table}[H]
+	\centering
+	\caption{传统红绿灯道路模型的100次模拟时长记录表}
+	\begin{tabular}{|l|l|l|l|}
+		\hline
+		483.0582353 & 419.3523529 & 460.0582353 & 461.5288235 \\ \hline
+		494.5311765 & 462.4135294 & 382.4723529 & 494.0605882 \\ \hline
+		464.4111765 & 530.5311765 & 437.1758824 & 483.1170588 \\ \hline
+		457.3547059 & 303.3970588 & 418.1170588 & 464.0582353 \\ \hline
+		483.1170588 & 513.0582353 & 543.0582353 & 573.0605882 \\ \hline
+		557.1170588 & 459.1905882 & 488.5311765 & 340.4111765 \\ \hline
+		453.0605882 & 573.0582353 & 483.1170588 & 453.1170588 \\ \hline
+		423.1170588 & 460.2935294 & 513.0605882 & 506.5288235 \\ \hline
+		464.0582353 & 506.0605882 & 391.3523529 & 459.5288235 \\ \hline
+		480.3547059 & 464.0582353 & 513.0582353 & 573.0582353 \\ \hline
+		370.3523529 & 418.0582353 & 470.4723529 & 431.8229412 \\ \hline
+		433.1170588 & 513.0582353 & 513.0582353 & 461.5288235 \\ \hline
+		514.1194118 & 430.0582353 & 467.1170588 & 460.4135294 \\ \hline
+		432.4723529 & 462.0605882 & 458.6464706 & 492.5311765 \\ \hline
+		453.1170588 & 453.0582353 & 391.1170588 & 461.0605882 \\ \hline
+		421.1758824 & 372.0441176 & 460.0582353 & 483.1170588 \\ \hline
+		431.9429412 & 386.0582353 & 393.0582353 & 543.0582353 \\ \hline
+		381.3523529 & 461.5288235 & 363.0605882 & 397.4135294 \\ \hline
+		453.1170588 & 420.1170588 & 483.1170588 & 454.0605882 \\ \hline
+		513.1194118 & 461.0605882 & 464.0582353 & 453.1170588 \\ \hline
+		413.3523529 & 543.0582353 & 520.3547059 & 457.1758824 \\ \hline
+		466.1170588 & 418.1170588 & 453.1170588 & 461.5288235 \\ \hline
+		463.5288235 & 380.4723529 & 466.6464706 & 443.3523529 \\ \hline
+		483.0582353 & 462.0605882 & 423.1170588 & 462.5288235 \\ \hline
+		462.4135294 & 460.3547059 & 423.1170588 & 483.0582353 \\ \hline
+	\end{tabular}
+\end{table}
+表2为$100$次模拟的时长记录，模拟时长的平均值为$459.20s$。
+		\subsection{由参数控制的红绿灯道路模型}
+			\subsubsection{模型假设}
+		\begin{enumerate}
+			\item 假设在距离路口停止线超过100米时，车辆在保证适当车距的前提下尽可能以最高限速行驶。
+			\item 假设区域道路限速为$17m/s$。
+			\item 车辆近似为质点。
+			\item 假设车辆在距离停止线$100m$时开始减速。
+			\item 假设所有车辆不会超车。
+			\item 假设行人不对车辆右转产生影响。
+			\item 假设车辆可以左转或直行时，斑马线上已经没有行人。
+			\item 假设汽车变道的时间可以忽略。
+			\item 假设车辆在进行转弯时的路径为标准的四分之一圆弧。
+			\item 假设每个路口在相同方向的红绿灯是同步的且按照顺时针方向变换出新的绿灯。
+			\item 假设车辆经过路口时，按照原速无法通过路口，它会降速等红灯而不是提速通过绿灯。
+			\item 假设距离路口停止线$20m$以内时，$6m/s$为理想速度。
+			\item 假设加速度绝对值上限为$2m/s^2$。
+		\end{enumerate}
+		
+		\subsubsection{符号说明}
+		\setlength\LTleft{0pt}
+		\setlength{\tabcolsep}{25pt}
+		\begin{longtable}{ccc}
+			\\\hline
+			%		\textbf{序号}&
+			\textbf{符号}&\textbf{含义}&\textbf{单位}\\
+			\hline
+
+			$r_1$&左转半径&$m$\\\hline
+			$r_2$&右转半径&$m$\\\hline
+			$w_r$&路口宽度&$m$\\\hline
+			$t_1$&绿灯单次持续时长&$s$\\\hline
+			$t_2$&黄灯单次持续时长&$s$\\\hline
+			$T$&红绿灯变化周期&$s$\\\hline
+			$v$&车速&$m\cdot s^{-1}$\\\hline
+			$a$&车加速度&$m\cdot s^{-2}$\\\hline
+			$\Delta t$&数据更新的单位时间&$m$\\\hline
+			$d_c$&与前车距离差&$m$\\\hline
+			$d_v$&与前车速度差&$m\cdot s^{-1}$\\\hline
+			$d_s$&车辆距离停止线距离&$m$\\\hline
+			$d_l$&车辆经过路口时需要行进的路程&$m$\\\hline
+			$a_0$&加速度绝对值上限&$m\cdot s^{-2}$\\\hline
+			$v_l$&道路最高限速&$m\cdot s^{-1}$\\\hline
+			$v_c$&停止线20m内限速&$m\cdot s^{-1}$\\\hline
+		\end{longtable}
+		\subsubsection{模型简介}
+		该模型的符号使用，模拟场景与传统红绿灯的道路模型相同，只有红绿灯轮换方式和绿灯持续时间不同。车辆模型的车类增加了两个属性分别是$intersection$和$time$，$intersection$属性表示车辆将要经过的十字路口，它一共有9个值，分别代表9个不同的路口。$time$属性表示当前路口的红绿灯还将保持的时长，$intersection$属性有利于对经过同一路口的车辆进行整合与同时改变$time$属性；模拟的过程由于红绿灯的设置改变需要调用新的函数，所以稍有改变。
+		\begin{figure}[H]
+			\centering
+			\includegraphics[scale=0.5]{智能模拟流程图.png}\caption{参数控制的红绿灯道路模拟}
+			\label{仿真模拟流程图}
+		\end{figure}
+		\subsubsection{红绿灯设计思路}
+		
+		对于每个路口，需要两个因素就可以确定该路口的红绿灯的状态，第一点是哪个方向的红绿灯为绿，第二点是绿灯持续时间应该多长。不妨先将第二点的绿灯持续时间定为27s，接下来单独考虑将哪个方向的红绿灯设置为绿灯。直观上的想法是车多的一边应当设置为绿灯，但是存在一个问题，假如有一条道路车多但是距离十字路口还有很长的距离而另一条车道的车虽然少但是已经在十字路口停止线前等待通过，那么此时按照车的数量设置哪边为绿灯就不合理，所以应当只统计距离停止线某一段距离内的车数量，关于统计多少距离内的车并不确定，这是可以将其看作自变量，将模拟平均用时看作因变量。由于没有具体的函数表达两者的关系，所以无法采用求导的方式求极小值点。\par
+		%对于第一点，从直观上考虑，车辆越多越有可能是绿灯，但是也存在车很多但是距离路口还有很长一段距离，其他方向的车辆已经在停止线前等待的情况。所以需要将两个因素结合起来判断，根据重要程度赋予不同的权重$\omega$，通过比对四个方向的在设定权重下的计算值判断哪个方向应该为绿灯。由于车的平均速度能够一定程度反应车的距离信息，所以分别为车的数量和车的平均速赋予权重能够包含道路上车的主要信息。
+%
+%		接下来是参数计算，由于不同的参数组合会得到不同的模拟时长，所以可以将参数看作自变量，将模拟时长看作自变量关于某个函数的函数值。模拟时长与红绿灯设置存在一种关系，但是这个关系无法用数学算式表达，只能用$f$表示这个函数，它不能通过求导等数学运算求极小值点。\par
+		但对于黑箱函数的极小值求法可以采用定步长搜索算法，即对参数初始化之后，向其所处空间的其它方向找一个距离一定的点，它代表一组新的参数，通过比较每个点对应函数值的大小，选出一个函数值最小的点作为新的起始点，接着继续向各个方向探寻更小函数值的点，直到达到指定迭代次数或者没有新的更小函数值的点\upcite{ref9}。\par
+		由于每次模拟时初始条件具有一定不同，即车辆的目的地是随机产生的，所以不同的模拟对应的黑箱函数$f$也不同，考察$f_1$与$f_2$，在两个极端的随机初始条件下，$f_1$函数的车辆全都以路程最短的出口作为目标点，而$f_2$函数的车辆全都以路程最远的出口作为目标点。这时通过定步长搜索算法求出来的极小值点不具有普遍性，只在特定初始条件下具有模拟时长短的特点，所以黑箱函数不能只用某个场景模拟，必须涵盖尽可能多的场景，令$f(\omega)=\sum_{i=1}^{n}f_i(\omega)$,$n$的值越大，它包含的场景信息就越多，也越能消除由初始条件的随机性导致的结果随机性，使搜索出的结果具更加具有普遍性。
+		\subsubsection{程序模拟}
+		
+		以统计的最远的车辆到停止线的距离为$x$,$x$的变化范围是$[10,500]$，从10m开始每隔10m取一个点，将每个点对应的模拟平均用时作为$f(x)$的值得到以下函数图像，具体数据见附录二。
+		\begin{figure}[H]
+			\centering
+			\includegraphics[scale=0.4]{参数控制.png}\caption{定步长搜索}
+			\label{参数控制}
+		\end{figure}
+	最小函数值为$638.41$s，大于传统红绿灯的道路模型平均用时459.20s\upcite{ref3,ref9}。
+%	通过球坐标系，可以均匀地在原始点的周围搜索新的点。假设原始点为A，搜索的新点为B，则$\vec{AB}=(r\sin\theta\cos\phi,r\sin\theta\sin\phi,r\cos\phi)$。%假设divnum为周角$2\pi$被分割的数量，简化为符号$d$表示。$\theta$和$\phi$被分割成相同的数目$d$，则原始点周围的新点数量为
+%		\noindent 迭代结果记录如下：\\
+%%		初始条件：eachnum=60,triannum=50,divnum=4,r=10,$\omega_0$=[1,1,1],iteration=10\\
+%%		运行结果：第 2 次迭代原点为极小值点，极小值点w= [11.0, 1.0, 1.0000000000000007] 极小值为： 34237.44823529411 极小值对应的平均时间为 684.7489647058823 。 \par
+%		初始条件：eachnum=60,triannum=100,divnum=4,r=5,$\omega_0$=[11,1,11],iteration=10\\
+%		运行结果：第 1 次迭代原点为极小值点，极小值点w= [11, 1, 1] 极小值为： 68967.77882352941 极小值对应的平均时间为 689.6777882352941。\par
+%		初始条件：eachnum=60,triannum=100,divnum=4,r=3,$\omega_0$=[11,1,11],iteration=10\\
+%		运行结果：第 3 次迭代原点为极小值点，极小值点w= [14.0, 1.0, 4.0] 极小值为： 68667.53882352942 极小值对应的平均时间为 686.6753882352942。\par
+%		初始条件：eachnum=60,triannum=100,divnum=4,r=1,$\omega_0$=[14.0, 1.0, 4.0],iteration=10\\
+%		运行结果：第 3 次迭代原点为极小值点，极小值点w= [13.0, 1.0000000000000002, 3.0] 极小值为： 68664.6517647059 极小值对应的平均时间为 686.6465176470589。\par
+%		虽然每次迭代能够获得稍好的结果，但时长始终处于较高的位置，并没有大幅度下降。
+%		\subsubsection{立方体中的定步长搜索}
+%		对于每个路口，需要两个因素就可以确定该路口的红绿灯的状态，第一是哪个方向的红绿灯为绿，第二是绿灯持续时间应该多长。对于第一点，从直观上考虑，车辆越多越有可能是绿灯，但是也存在车很多但是距离路口还有很长一段距离，其他方向的车辆已经在停止线前等待的情况。所以需要将两个因素结合起来判断，根据重要程度赋予不同的权重$\omega$，通过比对四个方向的在设定权重下的计算值判断哪个方向应该为绿灯。不妨先将车辆数的权重先定为1，再通过调节距离因素的权重获得不同的结果。\par
+%		其次，统计停止线多少距离以内的车辆意义最大也是可以探讨的，所以可以将极限距离设为另一个参数，此外，红绿灯持续时长也会对交通通行效率产生影响，所以可以将红绿灯持续时间作为第三个参数。\par
+		\subsection{传统红绿灯道路模型的改进}
+		\subsubsection{绿灯最优持续时长搜索}
+		通过对参数控制红绿灯的道路模型结果的分析，可以得知轮流式换灯是一种本身就效率比较高的变灯方式，所以接下来只需要考虑绿灯持续时长的影响，在相同的道路模型，车辆模型基础上对不同的红绿灯持续时长进行模拟，可以得出最优单次绿灯持续时长。
+		%图\ref{5mo}是时长从10变化到35的前5次模拟结果，
+		图\ref{100mo}是100次模拟的平均值折线图，由模拟结果可知，绿灯持续时长为11s时模拟平均值最小为416.89s，比绿灯持续时长为27s的用时434.51s节省4.4\%的时间，比绿灯持续时长为34s的用时441.31s节省5.1\%的时间。
+		\begin{table}[H]
+			\centering
+			\caption{不同绿灯持续时长对应的100次平均模拟时间}
+			\begin{tabular}{|c|c|}
+				\hline
+				绿灯持续时长 & 100次模拟平均用时（s） \\ \hline
+				10 & 417.6750471 \\ \hline
+				11 & 416.8836647 \\ \hline
+				12 & 420.0524294 \\ \hline
+				13 & 425.0074235 \\ \hline
+				14 & 427.1481059 \\ \hline
+				15 & 431.4948412 \\ \hline
+				16 & 427.7691647 \\ \hline
+				17 & 426.2161294 \\ \hline
+				18 & 426.2366471 \\ \hline
+				19 & 429.5527471 \\ \hline
+				20 & 429.7592706 \\ \hline
+				21 & 435.0274412 \\ \hline
+				22 & 436.0361588 \\ \hline
+				23 & 427.7824647 \\ \hline
+				24 & 428.3491529 \\ \hline
+				25 & 431.5661824 \\ \hline
+				26 & 431.3791353 \\ \hline
+				27 & 434.5088588 \\ \hline
+				28 & 435.6043706 \\ \hline
+				29 & 432.6721647 \\ \hline
+				30 & 436.9118588 \\ \hline
+				31 & 439.8773176 \\ \hline
+				32 & 437.1876235 \\ \hline
+				33 & 439.6341824 \\ \hline
+				34 & 441.3105882 \\ \hline
+			\end{tabular}
+		\end{table}
+	\begin{figure}[H]
+%	\centering
+%	\begin{minipage}[t]{0.48\textwidth}
+%		\centering
+%		\includegraphics[width=7cm]{5次模拟.png}
+%		\caption{五次模拟折线图}
+%			\label{5mo}
+%	\end{minipage}
+%	\begin{minipage}[t]{0.48\textwidth}
+		\centering
+		\includegraphics[scale=0.4]{模拟平均值.png}
+		\caption{100次模拟平均值折线图}
+		\label{100mo}
+%	\end{minipage}
+\end{figure}
+	\subsubsection{加装倒计时器}
+	此外可以通过加装倒计时器的方法提高通行效率，符号说明与传统红绿灯道路模型相同,模型假设除了“车辆在距离停止线$100m$时开始减速”外其他假设与传统红绿灯道路模型相同。\par
+	程序模拟结果如下：
+	\begin{table}[H]
+		\centering
+		\caption{加装倒计时器的100次模拟时间记录表}
+		\begin{tabular}{|l|l|l|l|}
+			\hline
+			387.5294118 & 332.1176471 & 270.1176471 & 444.1317647 \\ \hline
+			486.1317647 & 387.4847059 & 368.0141176 & 409.0729412 \\ \hline
+			387.4847059 & 402.0752941 & 500.1170588 & 280.3670588 \\ \hline
+			343.0729412 & 486.0729412 & 373.0752941 & 472.0164706 \\ \hline
+			418.1341176 & 401.4847059 & 410.4847059 & 402.1317647 \\ \hline
+			400.1317647 & 401.0729412 & 444.0729412 & 423.1317647 \\ \hline
+			359.4847059 & 500.0141176 & 452.1170588 & 430.1341176 \\ \hline
+			263.3923529 & 457.4847059 & 388.1176471 & 393.2958824 \\ \hline
+			393.2935294 & 500.1317647 & 486.0164706 & 332.1341176 \\ \hline
+			375.4847059 & 430.0729412 & 456.1317647 & 478.5288235 \\ \hline
+			329.0141176 & 400.1317647 & 400.1170588 & 391.1170588 \\ \hline
+			407.4870588 & 317.4111765 & 375.1317647 & 471.4847059 \\ \hline
+			373.1170588 & 444.1341176 & 443.1317647 & 500.1317647 \\ \hline
+			402.0729412 & 374.0588235 & 300.2182353 & 378.2494118 \\ \hline
+			305.1782353 & 379.2935294 & 402.0729412 & 473.1194118 \\ \hline
+			486.0164706 & 302.3335294 & 351.3382353 & 387.4847059 \\ \hline
+			457.2517647 & 402.1317647 & 457.2494118 & 472.0164706 \\ \hline
+			387.4870588 & 464.0729412 & 453.2494118 & 500.0164706 \\ \hline
+			284.3670588 & 377.0605882 & 542.1194118 & 486.1341176 \\ \hline
+			472.1317647 & 472.1317647 & 401.4847059 & 457.1905882 \\ \hline
+			439.2517647 & 497.1317647 & 318.4282353 & 345.4870588 \\ \hline
+			422.1341176 & 459.0141176 & 375.4111765 & 500.0164706 \\ \hline
+			486.1317647 & 412.3105882 & 478.5288235 & 416.0141176 \\ \hline
+			450.1317647 & 478.1929412 & 299.9388235 & 379.3547059 \\ \hline
+			411.2494118 & 379.2935294 & 304.4705882 & 373.1170588 \\ \hline
+		\end{tabular}
+	\end{table}
+通过加装倒计时器提高通行效率的原理是，车辆不用担心由于信号灯突然变为红灯导致刹车不及而提前减速，若还有较长时间绿灯，则减速是没有必要的，所以通过加装倒计时器向车主传递绿灯剩余时长信息可以有效提高通行效率。以提前计时5秒计时为例，可以将刹车分界线划为85m，因为85m恰好是以最大限速$17m/s$在5s内行驶的距离，倒计时开始的时候，85m以内的车辆不用减速能够通过，85m之后的车辆无法通过，需要减速，同时采用上一小节的结论，使绿灯持续时长为11s，
+由程序模拟100次的平均值为410.31s，比不加倒计时器的27s单次绿灯时长下的模拟用时减少10.65\%的时间。
+
+	\section{总结与分析}
+	\subsection{全文总结}
+	文章首先介绍了路况信息实时采集的技术手段，系统组成工作原理为仿真模拟提供了现实依据和支撑。接着分别建立了传统红绿交通模型和参数控制红绿灯的交通模型，预期猜测是在参数控制红绿灯的交通模型中能够获得更短的模拟时长，通过对参数控制红绿灯的交通模型中的参数定步长搜索获得参数取不同值时的模拟时长，但从模拟结果看传统红绿交通模型的模拟时长更短。在模拟数据的基础上，文章继续对传统红绿灯道路模型进行优化，通过改变绿灯单次持续时长研究绿灯单次持续时长对传统红绿灯道路模型的通行时间的影响，最终得出改变绿灯单次持续时长对通行效率存在影响，并且存在一个最优时长使通行效率最高。最后为传统红绿灯道路模型增加了倒计时器，仿真模拟的结果表明加装倒计时器同样能够提高道路通行效率。
+	\subsection{优点与不足}
+	优点：通过程序模拟和的方法，成功设计出了能够提高通行效率的红绿灯，首先通过定步长搜索发现轮换式变灯是比较高效的道路模型，其次通过分别对不同绿灯持续时长进行模拟，发现绿灯持续时长为11s时，通车效率最高，减少了17.62s，也就是4.4\%的整体通过时间，最后再通过增加计时器进一步提高了车辆通行效率，比不加计时器的的模拟时长减少10.65\%，成功利用仿真模拟得到能够提高通行效率的红绿灯方案。\par
+	不足：本文的红绿灯只是针对当前模型的设计结果，并没有对其他类型的路口和道路模型进行建模分析，所以结论不具备迁移性，从推广的角度看具有局限性，其次，在假设中忽略了行人对交通的影响，与现实的贴近程度不够高。
+	
+	\subsection{改进建议}
+	\begin{itemize}
+		\item 取消将车辆视作质点的假设，给车类增加车身长度属性。
+		\item 增加车类的子类如救护车，消防车并分别设定不同属性与行车规则。
+		\item 考虑行人对车辆的影响，改变右转车道恒为绿灯的设定。
+		\item 在加速度的设置上采用更加精准的数学模型，更精巧的数学公式。
+		\item 设计不同的交通路口的模型，在大量的道路模型基础上分析总结红绿灯通用规则。
+		\item 改变多次模拟消除随机性的思路，当初始车辆增加时，需要更多的模拟次数，才能一定程度上消除随机性的影响。采用对随机产生的初始道路情况深拷贝的方法，将需要对比的另一种方法采用同一个初始条件，这样不受初始条件的随机性影响并且极大提高程序运行速度。
+	\end{itemize}
+\indent 以上措施都将使模型更加贴近现实，从而增强模型的现实可参照性。此外还可以将模型整体设计成函数并将关键参数设计成函数的形参，在使用时可以方便从外部调用，不用修改内部代码。\par
+对于参数控制的红绿灯道路模型，可以增加一个参数绿灯持续时长，对二元参数应用定步长搜索法；也可以考虑对不同方向的绿灯设置不同的持续时长，时长设置由一个或多个参数决定。
+%时长与平均速度，车辆数的更高幂次的关系，可能在高幂次的关系下进行搜索能够找到模拟时间大幅缩短的参数。
+%	\subsubsection{拓展前景}
+%	在改进的基础上可以较好的模拟现实道路情况，为特定道路模型的红绿灯设计提供参考价值。
+	% Set the references
+	\newpage
+
+\fontsize{10.5pt}{16}\selectfont
+	\bibliographystyle{plainnat}
+%	\bibliography{references}
+	\addcontentsline{toc}{section}{参考文献}
+	 \begin{thebibliography}{99} 
+
+	 	\bibitem{ref1}许鹏辉. 基于移动终端的交通路况信息实时采集与显示系统[D].南京理工大学,2017.
+	 	\bibitem{ref2}许鹏辉,郭玲,施盼.基于移动终端的路况信息实时采集与显示系统[J].计算机与现代化,2017,No.259(03):22-26.
+%	 	\bibitem{ref2}徐浩然,崔胜,靳继全,孙逢宇,李翠华.基于机器视觉的智能红绿灯系统[J].河北农机,2021(01):88-89.DOI:10.15989/j.cnki.hbnjzzs.2021.01.047.
+%	 	\bibitem{ref3}车春江,郝盛,赵璐,杨鹏程.基于贪婪策略的智能红绿灯启发式算法研究[J].交通世界,2018(26):3-6.DOI:10.16248/j.cnki.11-3723/u.2018.26.001.
+%	 	\bibitem{ref4}Ribeiro David Augusto,Melgarejo Dick Carrillo,Saadi Muhammad,Rosa Renata Lopes,Rodríguez Demóstenes Zegarra. A novel deep deterministic policy gradient model applied to intelligent transportation system security problems in 5G and 6G network scenarios[J]. Physical Communication,2023,56.
+%	 	\bibitem{ref5}Wang Di,Xu Weijing,Jia Xuesong. Analysis of Intelligent Transportation System Application Based on Internet of Things and Big Data Technology under the Background of Information Society[J]. Advances in Multimedia,2022,2022.
+	 	\bibitem{ref3}林宇翔,王方霄,苏宇辰,李明奇.基于有限差分法与变步长搜索法的炉温曲线设计[J].实验科学与技术,2022,20(05):45-51.
+	 	\bibitem{ref4}温健,慕冰,严秋实,王岩.基于“卡口”测速数据的城市道路限速值合理性论证研究[J].道路交通管理,2023(02):56-58.
+	 	\bibitem{ref5}程留.基于强化学习和计算机仿真的交通信号调度[D].大连理工大学,2021.DOI:10.26991/d.cnki.gdllu.2021.001567.
+	 	\bibitem{ref6}白家豪.道路限速区段划分方法的研究[J].产业与科技论坛,2022,21(23):54-56.
+	 	\bibitem{ref7}王树凤,孙文盛,刘宗锋.车辆稳定换道时的侧向加速度分析[J].机械设计与制造,2020(07):17-20+24.DOI:10.19356/j.cnki.1001-3997.2020.07.005.
+	 	\bibitem{ref8}刘长运.基于加速度信号的车辆行驶状态识别算法[J].湖北汽车工业学院学报,2018,32(04):32-34.
+	 	\bibitem{ref9}张觉非，陈震.用Python实现深度学习框架[M].北京：人民邮电出版社，2020(10):18-23.
+	 	\bibitem{ref10}黄海波,曹利坤,王学军.预动式交通路口的红绿灯优化设计思路——一种智能的红绿灯信号控制方法[J].广东公安科技,2022,30(03):53-55.
+	 	\bibitem{ref11}张亚婉,胡洽锋,唐艳凤,黄信维.低峰期交通红绿灯减少候灯时间系统设计[J].机电工程技术,2021,50(06):155-157.
+		\bibitem{ref12}于增亮. 基于仿真环境驾驶员临界反应能力的研究[D].吉林大学,2005.
+	 	\bibitem{ref13}王满力,张玉强.有关防止闯红绿灯的智能化设计方案[J].无线互联科技,2013(11):80.
+	 	\bibitem{ref14}Aditi Agrawal,Rajeev Paulus. Intelligent traffic light design and control in smart cities: a survey on techniques and methodologies[J]. International Journal of Vehicle Information and Communication Systems,2020,5(4).
+	 	
+	\end{thebibliography}
+\newpage
+	% Set the appendix
+%	\renewcommand\appendix{\par
+%		\setcounter{section}{0}
+%		\setcounter{subsection}{0}
+%		\gdef\thesection{附录 \Alph{section}}}
+	%\addcontentsline{toc}{section}{附录}
+	\begin{appendix}
+	%\appendix
+	\section{附录一}
+	\subsection{unintelligent.py}
+%		[ numbers=left, numberstyle=\tiny, keywordstyle=\color{blue!70}, commentstyle=\color{red!50!green!50!blue!50}, frame=shadowbox, rulesepcolor=\color{red!20!green!20!blue!20}]
+	\begin{lstlisting}
+import initialize
+import update
+import reorder
+import gc
+times=100
+Deltat=1
+Q=1
+set=[]
+while Q<=times:
+    cars=initialize.initialize1()
+    initialize.initialize2(cars)
+    initialize.initialize3(cars)
+    n=0
+    T=0
+    timeset=[]
+    while True:
+        n+=1
+        T+=Deltat
+        speeds=[]
+        for car in cars:
+            speeds+=[car.speed]
+        [cars,timeset]=update.update1(cars,timeset,n,speeds)
+        if cars==[]:
+            break
+        else:
+            cars=reorder.reorder(cars)
+            update.update2(cars) 
+    cars.clear()
+    del cars
+    gc.collect()
+    Q+=1
+    set+=[max(timeset)]
+    print("第",Q-1,"次非智能模拟完成,模拟时间为",max(timeset))
+print("非智能模拟的时间集合为:",set,"平均值为",'%.2f' % float(sum(set)/len(set)))
+	\end{lstlisting}
+	\subsection{initialize.py}
+	\begin{lstlisting}
+import random
+pi=3.14
+eachnumber=60
+class Car:
+    def __init__(self,direction,coordinate):
+        self.direction=direction
+        self.coordinate = coordinate
+        self.serial=0
+        self.disstopline = 0
+        self.dislimitation=0
+        self.light = 1
+        self.lis = []
+        self.speed = 17
+        self.d_c = 50
+        self.acceleration=0
+        self.d_v=0
+        self.time=0
+        self.intersection=0
+def makedisstopline(self,n):
+    self.disstopline=(n-1)*50+1200
+def listmaker(p1, p2):
+    p = [0, 0]
+    p[0] = p2[0] - p1[0]
+    p[1] = p2[1] - p1[1]
+    if p1[1] == -2:
+        pass
+    elif p1[1] == 2:
+        p[0] = -p[0]
+        p[1] = -p[1]
+    elif p1[0] == 2:
+        t = p[0]
+        p[0] = p[1]
+        p[1] = -t
+    elif p1[0] == -2:
+        t = p[0]
+        p[0] = -p[1]
+        p[1] = t
+    if p[1] == 4:  # 由底到顶
+        if p[0] == 0:
+            return [0, 0, 0]  
+        elif p[0] == -1:
+            return [-1, 1, 0, 0]
+        elif p[0] == -2:
+            return [-1, 0, 1, 0, 0]
+        elif p[0] == 1:
+            return [1, -1, 0, 0]
+        elif p[0] == 2:
+            return [1, 0, -1, 0, 0]
+    elif p[1] == 0:  # 由底到底
+        if p[0] == -1:
+            return [-1, -1]
+        elif p[0] == 1:
+            return [1, 1]
+        elif p[0] == -2:
+            return [-1, 0, -1]
+        elif p[0] == 2:
+            return [1, 0, 1]
+    else:  # 由底到边
+        temporary = []
+        if p[1] > 1:
+            for i in range(p[1] - 1):
+                temporary += [0]  
+            if p[0] > 0:
+                temporary += [1]  
+                for j in range(p[0] - 1):
+                    temporary += [0]  
+                return temporary
+            elif p[0] < 0:
+                temporary += [-1]  
+                for j in range(p[0] - 1):
+                    temporary += [0] 
+                return temporary
+        else:  
+            if p[0] > 0:
+                temporary += [1]  
+                for j in range(p[0] - 1):
+                    temporary += [0]  
+                return temporary
+            elif p[0] < 0:
+                temporary += [-1]  
+                for j in range(p[0] - 1):
+                    temporary += [0]  
+                return temporary
+def makelis(self):
+    positions = [[-1, -2], [-1, 2], [0, -2], [0, 2], [1, -2], [1, 2], [-2, -1], [2, -1], [-2, 0], [2, 0], [-2, 1],[2, 1]]
+    positions.remove(self.coordinate)
+    outposition = random.choice(positions)
+    self.lis = listmaker(self.coordinate, outposition)
+def makeserial(self):
+    if self.lis[0]==-1:
+        self.serial=-1
+    elif self.lis[0] ==1:
+        self.serial=1
+    else:
+        self.serial = 0
+def makelight(self):
+    if self.serial==1:
+        self.light=1
+    else:
+        if self.direction==[0,1]:
+            self.light=1
+        else:
+            self.light=-1
+def makedislimitation(self):
+    if self.serial == -1:
+        self.dislimitation=14*pi
+    elif self.serial == 1:
+        self.dislimitation=2*pi
+    else:
+        self.dislimitation =48
+def initialize2(cars):
+    for car in cars:
+        makelis(car)
+        makeserial(car)
+        makelight(car)
+        makedislimitation(car)
+def initialize1():
+    directions=[[1,0],[-1,0],[0,1],[0,-1]]
+    coordinates = [[-2, -1], [-2, 0], [-2, 1]], [[2, -1], [2, 0], [2, 1]], [[-1, -2], [0, -2], [1, -2]], [[-1, 2], [0, 2], [1, 2]]
+    cars=[]
+    i=0
+    for direction in directions:
+        for coordinate in coordinates[i]:
+            for j in range(eachnumber):
+                cars+=[Car(direction,coordinate)]
+        i+=1
+    return cars
+def initialize3(cars):
+    zushu=int(len(cars)/eachnumber)
+    for i in range(zushu):
+        serialminus = 0
+        serialzero = 0
+        serialplus = 0
+        for j in range(eachnumber):
+            if cars[i * eachnumber + j].serial==-1:
+                serialminus+=1
+                makedisstopline(cars[i*eachnumber+j],serialminus)
+            elif cars[i * eachnumber + j].serial == 0:
+                serialzero+=1
+                makedisstopline(cars[i * eachnumber + j], serialzero)
+            elif cars[i * eachnumber + j].serial == 1:
+                serialplus+=1
+                makedisstopline(cars[i * eachnumber + j], serialplus)
+	\end{lstlisting}
+	\subsection{update.py}
+	\begin{lstlisting}
+import math
+pi=3.14
+Deltat=1
+def lasttime(s,v):#以初速度v，加速度为a，限速17m/s,行驶最后s所用时间的计算公式 
+    a=2
+    if s<=(17**2-v**2)/2/a:
+        if v**2+2*a*s>=0:
+            t=-v/a+math.sqrt(v**2+2*a*s)/a
+        else:
+            t=-v/a
+    else:
+        t=s/17-(17**2-v**2)/34/a
+    return t
+def lightchange(self,T):
+    if self.direction==[0,1]:
+        if T%120>=0 and T%120<=27:
+            self.light=1
+        elif T%120>27 and T%120<=30:
+            self.light=0
+        elif T%120>30 and T%120<120:
+            self.light=-1
+    elif self.direction==[-1,0]:
+        if (T-30)%120>=0 and (T-30)%120<=27:
+            self.light=1
+        elif (T-30)%120>27 and (T-30)%120<=30:
+            self.light=0
+        elif (T-30)%120>30 and (T-30)%120<120:
+            self.light=-1
+    elif self.direction==[0,-1]:
+        if (T-60)%120>=0 and (T-60)%120<=27:
+            self.light=1
+        elif (T-60)%120>27 and (T-60)%120<=30:
+            self.light=0
+        elif (T-60)%120>30 and (T-60)%120<120:
+            self.light=-1
+    elif self.direction==[1,0]:
+        if (T-90)%120>=0 and (T-90)%120<=27:
+            self.light=1
+        elif (T-90)%120>27 and (T-90)%120<=30:
+            self.light=0
+        elif (T-90)%120>30 and (T-90)%120<120:
+            self.light=-1
+def lightchange2(self,T,t):
+    T2=4*(t+3)
+    if self.direction==[0,1]:
+        if T%T2>=0 and T%T2<=t:
+            self.light=1
+        elif T%T2>t and T%T2<=t+3:
+            self.light=0
+        elif T%T2>t+3 and T%T2<T2:
+            self.light=-1
+    elif self.direction==[-1,0]:
+        if (T-t-3)%T2>=0 and (T-t-3)%T2<=t:
+            self.light=1
+        elif (T-t-3)%T2>t and (T-t-3)%T2<=t+3:
+            self.light=0
+        elif (T-t-3)%T2>t+3 and (T-t-3)%T2<T2:
+            self.light=-1
+    elif self.direction==[0,-1]:
+        if (T-2*t-6)%T2>=0 and (T-2*t-6)%T2<=t:
+            self.light=1
+        elif (T-2*t-6)%T2>t and (T-2*t-6)%T2<=t+3:
+            self.light=0
+        elif (T-2*t-6)%T2>t+3 and (T-2*t-6)%T2<T2:
+            self.light=-1
+    elif self.direction==[1,0]:
+        if (T-3*t-9)%T2>=0 and (T-3*t-9)%T2<=t:
+            self.light=1
+        elif (T-3*t-9)%T2>t and (T-3*t-9)%T2<=t+3:
+            self.light=0
+        elif (T-3*t-9)%T2>t+3 and (T-3*t-9)%T2<T2:
+            self.light=-1
+def update1s(cars,timeset,n,speeds,w):
+    T=n*Deltat
+    records=[]
+    L=len(cars)
+    for i in range(L):
+        cars[i].disstopline = cars[i].disstopline - speeds[i] * Deltat
+        cars[i].speed = cars[i].speed + cars[i].acceleration * Deltat
+        if cars[i].disstopline>0:
+            if cars[i].serial != 1:
+                lightchange2(cars[i],T,w)
+        else:
+            if cars[i].lis==[]:
+                cars[i].lis+=[0]
+            cars[i].lis.pop(0)
+            if cars[i].lis==[]:
+                timeset += [T+lasttime(1200+cars[i].dislimitation+cars[i].disstopline, cars[i].speed)]
+                records+=[i]
+            else:
+                updatecoordinate(cars[i])
+                directionchange(cars[i])
+                cars[i].serial=cars[i].lis[0]
+                cars[i].disstopline = 1200+cars[i].dislimitation+cars[i].disstopline
+                makedislimitation(cars[i])
+                if cars[i].serial != 1:
+                    lightchange2(cars[i],T,w)
+                else:
+                    cars[i].light=1
+    records.reverse()
+    for record in records:
+        cars.pop(record)
+    cars=revise(cars)
+    return [cars,timeset]
+def directionchange(self):
+    if self.serial==1:
+        temp=self.direction[0]
+        self.direction[0]=self.direction[1]
+        self.direction[1]=-temp
+    elif self.serial==-1:
+        temp = self.direction[0]
+        self.direction[0] = -self.direction[1]
+        self.direction[1] = temp
+def updatecoordinate(self):
+    if self.direction == [1,0] and self.serial==-1:#右上
+        if self.coordinate[0]<=-1:
+            self.coordinate[0]+=1
+        if self.coordinate[1]>=0:
+            self.coordinate[1]+=1
+    elif self.direction == [-1,0] and self.serial==1:#左上
+        if self.coordinate[0]>=1:
+            self.coordinate[0]-=1
+        if self.coordinate[1]>=0:
+            self.coordinate[1]+=1
+    elif self.direction == [1,0] and self.serial==1:#右下
+        if self.coordinate[0]<=-1:
+            self.coordinate[0]+=1
+        if self.coordinate[1]<=0:
+            self.coordinate[1]-=1
+    elif self.direction == [-1,0] and self.serial==-1:#左下
+        if self.coordinate[0]>=1:
+            self.coordinate[0]-=1
+        if self.coordinate[1]<=0:
+            self.coordinate[1]-=1
+    elif self.direction == [0,1] and self.serial==-1:#上左
+        if self.coordinate[1]<=-1:
+            self.coordinate[1]+=1
+        if self.coordinate[0]<=0:
+            self.coordinate[0]-=1
+    elif self.direction == [0,-1] and self.serial==1:#下左
+        if self.coordinate[1]>=1:
+            self.coordinate[1]-=1
+        if self.coordinate[0]<=0:
+            self.coordinate[0]-=1
+    elif self.direction == [0,1] and self.serial==1:#上右
+        if self.coordinate[1]<=-1:
+            self.coordinate[1]+=1
+        if self.coordinate[0]>=0:
+            self.coordinate[0]+=1
+    elif self.direction == [0,-1] and self.serial==-1:#下右
+        if self.coordinate[1]>=1:
+            self.coordinate[1]-=1
+        if self.coordinate[0]>=0:
+            self.coordinate[0]+=1
+def makedislimitation(self):
+    if self.serial == -1:
+        self.dislimitation=14*pi
+    elif self.serial == 1:
+        self.dislimitation=2*pi
+    else:
+        self.dislimitation =48
+def revise(cars):
+    for car in cars:
+        if car.lis==[]:
+            cars.remove(car)
+    for car in cars:
+        if car.speed>17:
+            car.speed=17
+        elif car.speed<0:
+            car.speed=0
+    return cars
+def update1(cars,timeset,n,speeds):
+    T=n*Deltat
+    records=[]
+    L=len(cars)
+    for i in range(L):
+        cars[i].disstopline = cars[i].disstopline - speeds[i] * Deltat
+        cars[i].speed = cars[i].speed + cars[i].acceleration * Deltat
+        if cars[i].disstopline>0:
+            if cars[i].serial != 1:
+                lightchange(cars[i],T)
+        else:
+            if cars[i].lis==[]:
+                cars[i].lis+=[0]
+            cars[i].lis.pop(0)
+            if cars[i].lis==[]:
+                timeset +=[T+lasttime(1200+cars[i].dislimitation+cars[i].disstopline, cars[i].speed)]
+                records+=[i]
+            else:
+                updatecoordinate(cars[i])
+                directionchange(cars[i])
+                cars[i].serial=cars[i].lis[0]
+                cars[i].disstopline = 1200+cars[i].dislimitation+cars[i].disstopline
+                makedislimitation(cars[i])
+                if cars[i].serial != 1:
+                    lightchange(cars[i],T)
+                else:
+                    cars[i].light=1
+    records.reverse()
+    for record in records:
+        cars.pop(record)
+    cars=revise(cars)
+    return [cars,timeset]
+def updateacc1(self):
+    if self.disstopline>100:
+        if 17-self.speed<2*Deltat:
+            self.acceleration=(17-self.speed)/Deltat
+        else:
+            self.acceleration=2
+    elif self.disstopline>=20 and self.disstopline<=100:
+        if self.speed>6:
+            if self.speed-6>=2*Deltat:
+                self.acceleration=-2
+            else:
+                self.acceleration=-(self.speed-6)/Deltat
+        elif self.speed<6:
+            if 6-self.speed>=2*Deltat:
+                self.acceleration=2
+            else:
+                self.acceleration=(6-self.speed)/Deltat
+        else:
+            self.acceleration=0
+    else:
+        if self.light==1:
+            if abs(self.speed-6)/Deltat<=2:
+                self.acceleration=(6-self.speed)/Deltat
+            else:
+                if self.speed>6:
+                    self.acceleration=-2
+                else:
+                    self.acceleration=2
+        else:
+            if self.speed/Deltat<=2:
+                self.acceleration=-self.speed/Deltat
+            else:
+                a=-2
+def updateacc2(self):
+    if self.d_c>3*self.speed and self.d_v<0:
+        if -self.d_v>=2*Deltat:
+            self.acceleration=2
+        else:
+            self.acceleration=-self.d_v/Deltat
+    elif self.d_c<3*self.speed and self.d_v>0:
+        if self.d_v>=2*Deltat:
+            self.acceleration=-2
+        else:
+            self.acceleration=-self.d_v/Deltat
+    else:
+        self.acceleration=0
+def update2(cars):
+    i=0
+    for car in cars:
+        i+=1
+        if car.d_v==None:
+            updateacc1(car)
+        else:
+            updateacc2(car)
+            
+def judge0(car):
+    if (car.direction==[1,0] and car.coordinate==[-2,1]) or (car.direction==[-1,0] and car.coordinate==[-1,1]) or (car.direction==[0,-1] and car.coordinate==[-1,2]) or (car.direction==[0,1] and car.coordinate==[-1,1]):
+        return True
+def judge1(car):
+    if (car.direction==[1,0] and car.coordinate==[-1,1]) or (car.direction==[-1,0] and car.coordinate==[1,1]) or (car.direction==[0,-1] and car.coordinate==[0,2]) or (car.direction==[0,1] and car.coordinate==[0,1]):
+        return True
+def judge2(car):
+    if (car.direction==[1,0] and car.coordinate==[1,1]) or (car.direction==[-1,0] and car.coordinate==[2,1]) or (car.direction==[0,-1] and car.coordinate==[1,2]) or (car.direction==[0,1] and car.coordinate==[1,1]):
+        return True
+def judge3(car):
+    if (car.direction==[1,0] and car.coordinate==[-2,0]) or (car.direction==[-1,0] and car.coordinate==[-1,0]) or (car.direction==[0,-1] and car.coordinate==[-1,1]) or (car.direction==[0,1] and car.coordinate==[-1,-1]):
+        return True
+def judge4(car):
+    if (car.direction==[1,0] and car.coordinate==[-1,0]) or (car.direction==[-1,0] and car.coordinate==[1,0]) or (car.direction==[0,-1] and car.coordinate==[0,1]) or (car.direction==[0,1] and car.coordinate==[0,-1]):
+        return True
+def judge5(car):
+    if (car.direction==[1,0] and car.coordinate==[1,0]) or (car.direction==[-1,0] and car.coordinate==[2,0]) or (car.direction==[0,-1] and car.coordinate==[1,1]) or (car.direction==[0,1] and car.coordinate==[1,-1]):
+        return True
+def judge6(car):
+    if (car.direction==[1,0] and car.coordinate==[-2,-1]) or (car.direction==[-1,0] and car.coordinate==[-1,-1]) or (car.direction==[0,-1] and car.coordinate==[-1,-1]) or (car.direction==[0,1] and car.coordinate==[-1,-2]):
+        return True
+def judge7(car):
+    if (car.direction==[1,0] and car.coordinate==[-1,-1]) or (car.direction==[-1,0] and car.coordinate==[1,-1]) or (car.direction==[0,-1] and car.coordinate==[0,-1]) or (car.direction==[0,1] and car.coordinate==[0,-2]):
+        return True
+def judge8(car):
+    if (car.direction==[1,0] and car.coordinate==[1,-1]) or (car.direction==[-1,0] and car.coordinate==[2,-1]) or (car.direction==[0,-1] and car.coordinate==[1,-1]) or (car.direction==[0,1] and car.coordinate==[1,-2]):
+        return True
+def allocate(cars):
+    Cars=[]
+    for i in range(9):
+        Cars+=[[]]
+    for car in cars:
+        if judge0(car):
+            car.intersection=0
+            Cars[0]+=[car]
+        elif judge1(car):
+            car.intersection=1
+            Cars[1]+=[car]
+        elif judge2(car):
+            car.intersection=2
+            Cars[2]+=[car]
+        elif judge3(car):
+            car.intersection=3
+            Cars[3]+=[car]
+        elif judge4(car):
+            car.intersection=4
+            Cars[4]+=[car]
+        elif judge5(car):
+            car.intersection=5
+            Cars[5]+=[car]
+        elif judge6(car):
+            car.intersection=6
+            Cars[6]+=[car]
+        elif judge7(car):
+            car.intersection=7
+            Cars[7]+=[car]
+        elif judge8(car):
+            car.intersection=8
+            Cars[8]+=[car]
+    return Cars
+def renewintersection(car):
+    if judge0(car):
+        car.intersection=0
+    elif judge1(car):
+        car.intersection=1
+    elif judge2(car):
+        car.intersection=2
+    elif judge3(car):
+        car.intersection=3
+    elif judge4(car):
+        car.intersection=4
+    elif judge5(car):
+        car.intersection=5
+    elif judge6(car):
+        car.intersection=6
+    elif judge7(car):
+        car.intersection=7
+    elif judge8(car):
+        car.intersection=8
+def inupdate1(cars,timeset,n,speeds):
+    T=n*Deltat
+    records=[]
+    L=len(cars)
+    for i in range(L):
+        cars[i].time-=Deltat
+        cars[i].disstopline = cars[i].disstopline - speeds[i] * Deltat
+        cars[i].speed = cars[i].speed + cars[i].acceleration * Deltat
+        if cars[i].disstopline>0:
+            pass
+        else:
+            if cars[i].lis==[]:
+                cars[i].lis+=[0]
+            cars[i].lis.pop(0)
+            if cars[i].lis==[]:
+                timeset+=[T+lasttime(1200+cars[i].dislimitation+cars[i].disstopline, cars[i].speed)]
+                records+=[i]
+            else:
+                updatecoordinate(cars[i])
+                directionchange(cars[i])
+                renewintersection(cars[i])
+                cars[i].serial=cars[i].lis[0]
+                cars[i].disstopline = 1200+cars[i].dislimitation+cars[i].disstopline
+                makedislimitation(cars[i])
+    records.reverse()
+    for record in records:
+        cars.pop(record)
+    revise(cars)
+    return [cars,timeset]
+def reallocate(Cars):
+    for carlist in Cars:
+        for car in carlist:
+            if car.intersection!=Cars.index(carlist):
+                Cars[car.intersection]+=[car]
+                carlist.remove(car)
+    return Cars
+def pri(cars):
+    i=0
+    for car in cars:
+        print("第",i+1,"辆车信息为")
+        print("self.lis =", cars[i].lis,
+            "self.speed=", cars[i].speed,
+            "self.acceleration=", cars[i].acceleration,
+            "self.disstopline =", cars[i].disstopline,
+            "self.intersection =", cars[i].intersection,
+            "self.dislimitation=", cars[i].dislimitation,
+            "self.d_v=", cars[i].d_v,
+            "self.d_c =", cars[i].d_c,
+            "self.direction=", cars[i].direction,
+            "self.coordinate =", cars[i].coordinate,
+            "self.serial=", cars[i].serial,
+            "self.light =", cars[i].light,
+            "self.time =", cars[i].time
+            )
+        i+=1
+def lightset(carlist,w1,w2,w3):
+    if carlist!=[]:
+        if carlist[0].time>=Deltat:
+            pass
+        else:
+            numset=[0,0,0,0]
+            disstoplines=[0,0,0,0]
+            averds=[0,0,0,0]
+            for car in carlist:
+                if car.serial!=1 and car.direction==[1,0] and car.disstopline<=w1:
+                    numset[0]+=1
+                    disstoplines[0]+=car.disstopline
+                elif car.serial!=1 and car.direction==[-1,0] and car.disstopline<=w1:
+                    numset[1]+=1
+                    disstoplines[1]+=car.disstopline
+                elif car.serial!=1 and car.direction==[0,-1] and car.disstopline<=w1:
+                    numset[2]+=1
+                    disstoplines[2]+=car.disstopline
+                elif car.serial!=1 and car.direction==[0,1] and car.disstopline<=w1:
+                    numset[3]+=1
+                    disstoplines[3]+=car.disstopline
+            for i in range(4):
+                if numset[i]!=0:
+                    averds[i]=disstoplines[i]/numset[i]
+                else:
+                    averds[i]=10000000
+            grades=[0,0,0,0]
+            for i in range(4):
+                grades[i]=numset[i]-w2*averds[i]
+            mgindex=grades.index(max(grades))
+            if mgindex==0:
+                for car in carlist:
+                    if car.direction==[1,0]:
+                        car.light=1
+                    elif car.serial==1:
+                        car.light=1
+                    else:
+                        car.light=-1
+            elif mgindex==1:
+                for car in carlist:
+                    if car.direction==[-1,0]:
+                        car.light=1
+                    elif car.serial==1:
+                        car.light=1
+                    else:
+                        car.light=-1
+            elif mgindex==2:
+                for car in carlist:
+                    if car.direction==[0,-1]:
+                        car.light=1
+                    elif car.serial==1:
+                        car.light=1
+                    else:
+                        car.light=-1
+            elif mgindex==3:
+                for car in carlist:
+                    if car.direction==[0,1]:
+                        car.light=1
+                    elif car.serial==1:
+                        car.light=1
+                    else:
+                        car.light=-1
+            for car in carlist:
+                car.time=w3
+	\end{lstlisting}
+	\subsection{reorder.py}
+	\begin{lstlisting}
+def reorder(cars):    
+    L = len(cars)
+    index = []
+    for i in range(L):
+        index += [i]
+    newcars = []
+    newcars2 = []
+    while index != []:
+        record = []
+        for i in range(len(index)):
+            if i == 0:
+                newcars += [cars[index[i]]]
+                record += [0]
+            elif cars[index[i]].direction == newcars[-1].direction and cars[index[i]].coordinate == newcars[
+                -1].coordinate and cars[index[i]].serial == newcars[-1].serial:
+                newcars += [cars[index[i]]]
+                record += [i]
+        cardisstoplines = []
+        for i in record:
+            cardisstoplines += [cars[index[i]].disstopline]
+        ordered_list = sorted(range(len(cardisstoplines)), key=lambda k: cardisstoplines[k])  # 获取索引排序
+        cars[index[ordered_list[0]]].d_c=None
+        cars[index[ordered_list[0]]].d_v = None
+        for i in ordered_list:
+            newcars2 += [cars[index[i]]]
+        record.reverse()
+        for number in record:
+            index.pop(number)
+    return newcars2
+	\end{lstlisting}
+	\subsection{intelligent.py}
+	\begin{lstlisting}
+import initialize
+import update
+import reorder
+times=8
+Deltat=0.1
+Q=1
+set=[]
+while Q<=times:
+    timeset=[]
+    cars=initialize.initialize1()
+    initialize.initialize2(cars)
+    initialize.initialize3(cars)
+    Cars=update.allocate(cars)
+    for carlist in Cars:
+        update.lightset(carlist,200,0.2,11)
+    n=0
+    T=0
+    while not all(carlist==[] for carlist in Cars):
+        n+=1
+        T+=Deltat
+        print("第",n,"次更新")
+        for carlist in Cars:
+            speeds=[]
+            for car in carlist:
+                speeds+=[car.speed]
+            [carlist,timeset]=update.inupdate1(carlist,timeset,n,speeds)
+        Cars=update.reallocate(Cars)
+        for carlist in Cars:
+            update.lightset(carlist,5,0.3,20)
+            carlist=reorder.reorder(carlist)
+            update.update2(carlist) 
+    set+=[round(max(timeset),2)]
+    print("第",Q,"次智能模拟完成,模拟时间为",max(timeset))
+    Q+=1
+print("智能模拟的时间集合为:",set,"平均值为",'%.2f' % float(sum(set)/len(set)))
+	\end{lstlisting}
+	\subsection{定步长搜素.py}
+	\begin{lstlisting}
+import initialize
+import update
+import reorder
+import copy
+import gc
+times=2
+Deltat=1
+k1=[a for a in range(10,510,10)]
+#因变量列表存放[f(a)]
+sumdepent=[]
+averdepent=[]
+p=1
+while p<=times:
+    cars=initialize.initialize1()
+    initialize.initialize2(cars)
+    initialize.initialize3(cars)
+    Cars0=update.allocate(cars)
+    k=1
+    for a in k1:
+        Cars=copy.deepcopy(Cars0)
+        timeset=[]
+        for carlist in Cars:
+            update.lightset(carlist,a,0,27)
+        n=0
+        T=0
+        while not all(carlist==[] for carlist in Cars):
+            n+=1
+            T+=Deltat
+            for carlist in Cars:
+                speeds=[]
+                for car in carlist:
+                    speeds+=[car.speed]
+                [carlist,timeset]=update.inupdate1(carlist,timeset,n,speeds)
+            Cars=update.reallocate(Cars)
+            for carlist in Cars:
+                update.lightset(carlist,a,0,27)
+                carlist=reorder.reorder(carlist)
+                update.update2(carlist) 
+        del Cars
+        gc.collect()
+        sumdepent+=[max(timeset)]
+        print("第",p,"次模拟的","第",k,"次搜索结果记录：",a,max(timeset))
+        k+=1
+    p+=1
+averdepent=[i/times for i in sumdepent]
+print("搜索完成")
+print("自变量集合\n",k1)
+print("因变量集合\n",averdepent)
+	\end{lstlisting}
+\subsection{绿灯最优持续时长搜索.py}
+\begin{lstlisting}
+import initialize
+import update
+import reorder
+import copy
+times=2
+lastingtimes=[i for i in range(10,35,1)]
+set=[0*i for i in range(10,35,1)]
+r=1
+while r<=times:
+    cars=initialize.initialize1()
+    initialize.initialize2(cars)
+    initialize.initialize3(cars)
+    cars2=copy.deepcopy(cars)
+    id=0
+    for time in lastingtimes:
+        Deltat=1
+        cars=copy.deepcopy(cars2)
+        T=0
+        n=0
+        timeset=[]
+        while True:
+            print("第",r,"次初始化","绿灯时长为",time,"的第",n+1,"次更新")
+            n+=1
+            T+=Deltat
+            speeds=[]
+            for car in cars:
+                speeds+=[car.speed]
+            [cars,timeset]=update.update1s(cars,timeset,n,speeds,time)
+            if cars==[]:
+                break
+            else:
+                cars=reorder.reorder(cars)
+                update.update2(cars) 
+        set[id]+=max(timeset)
+        id+=1
+    r+=1
+averset=[set[i]/times for i in range(len(set))]
+print(averset)
+\end{lstlisting}
+\subsection{加装倒计时器.py}
+\begin{lstlisting}
+import initialize
+import update
+import reorder
+import gc
+def updateacc1s(self):
+    if self.disstopline>85:
+        if 17-self.speed<2*Deltat:
+            self.acceleration=(17-self.speed)/Deltat
+        else:
+            self.acceleration=2
+    elif self.disstopline>=20 and self.disstopline<=85:
+        if self.speed>6:
+            if self.speed-6>=2*Deltat:
+                self.acceleration=-2
+            else:
+                self.acceleration=-(self.speed-6)/Deltat
+        elif self.speed<6:
+            if 6-self.speed>=2*Deltat:
+                self.acceleration=2
+            else:
+                self.acceleration=(6-self.speed)/Deltat
+        else:
+            self.acceleration=0
+    else:
+        if self.light==1:
+            if abs(self.speed-6)/Deltat<=2:
+                self.acceleration=(6-self.speed)/Deltat
+            else:
+                if self.speed>6:
+                    self.acceleration=-2
+                else:
+                    self.acceleration=2
+        else:
+            if self.speed/Deltat<=2:
+                self.acceleration=-self.speed/Deltat
+            else:
+                self.acceleration=-2
+def updateacc2s(self):
+    if self.d_c>3*self.speed and self.d_v<0:
+        if -self.d_v>=2*Deltat:
+            self.acceleration=2
+        else:
+            self.acceleration=-self.d_v/Deltat
+    elif self.d_c<3*self.speed and self.d_v>0:
+        if self.d_v>=2*Deltat:
+            self.acceleration=-2
+        else:
+            self.acceleration=-self.d_v/Deltat
+    else:
+        self.acceleration=0
+def update2s(cars):
+    i=0
+    for car in cars:
+        i+=1
+        if car.d_v==None:
+            updateacc1s(car)
+        else:
+            updateacc2s(car)
+times=100
+Deltat=1
+Q=1
+set=[]
+while Q<=times:
+    cars=initialize.initialize1()
+    initialize.initialize2(cars)
+    initialize.initialize3(cars)
+    n=0
+    T=0
+    timeset=[]
+    while True:
+        n+=1
+        T+=Deltat
+        speeds=[]
+        for car in cars:
+            speeds+=[car.speed]
+        [cars,timeset]=update.update1s(cars,timeset,n,speeds,11)
+        if cars==[]:
+            break
+        else:
+            cars=reorder.reorder(cars)
+            update2s(cars) 
+    cars.clear()
+    del cars
+    gc.collect()
+    Q+=1
+    set+=[max(timeset)]
+    print("第",Q-1,"次模拟完成,模拟时间为",max(timeset))
+print("模拟的时间集合为:",set,"平均值为",'%.2f' % float(sum(set)/len(set)))
+\end{lstlisting}
+\newpage
+\section{附录二}
+%\begin{longtable}{ccc}
+%	\\\hline
+%	%		\textbf{序号}&
+%	\textbf{符号}&\textbf{含义}&\textbf{单位}\\
+%	\hline
+%
+%\end{longtable}
+\begin{center}
+\begin{longtable}{cc}\caption*{表一}
+%	\centering
+		\\\hline
+		与停止线距离(m) & 模拟平均用时(s) \\ \hline
+		10 & 692.5288235 \\ \hline
+		20 & 692.5288235 \\ \hline
+		30 & 692.5288235 \\ \hline
+		40 & 692.5288235 \\ \hline
+		50 & 692.4111765 \\ \hline
+		60 & 692.4111765 \\ \hline
+		70 & 692.4111765 \\ \hline
+		80 & 692.4111765 \\ \hline
+		90 & 657.0582353 \\ \hline
+		100 & 657.0582353 \\ \hline
+		110 & 657.0582353 \\ \hline
+		120 & 657.0582353 \\ \hline
+		130 & 639.5288235 \\ \hline
+		140 & 639.5288235 \\ \hline
+		150 & 639.5288235 \\ \hline
+		160 & 719.5288235 \\ \hline
+		170 & 719.5288235 \\ \hline
+		180 & 719.5288235 \\ \hline
+		190 & 692.5288235 \\ \hline
+		200 & 692.5288235 \\ \hline
+		210 & 692.5288235 \\ \hline
+		220 & 692.5288235 \\ \hline
+		230 & 692.5288235 \\ \hline
+		240 & 692.5288235 \\ \hline
+		250 & 692.5288235 \\ \hline
+		260 & 692.5288235 \\ \hline
+		270 & 692.5288235 \\ \hline
+		280 & 665.5876471 \\ \hline
+		290 & 665.5876471 \\ \hline
+		300 & 665.5876471 \\ \hline
+		310 & 665.5876471 \\ \hline
+		320 & 665.5876471 \\ \hline
+		330 & 665.5876471 \\ \hline
+		340 & 665.5876471 \\ \hline
+		350 & 665.5876471 \\ \hline
+		360 & 665.5876471 \\ \hline
+		370 & 665.5876471 \\ \hline
+		380 & 665.5876471 \\ \hline
+		390 & 638.5876471 \\ \hline
+		400 & 638.5876471 \\ \hline
+		410 & 638.5876471 \\ \hline
+		420 & 638.4111765 \\ \hline
+		430 & 638.4111765 \\ \hline
+		440 & 638.4111765 \\ \hline
+		450 & 638.4111765 \\ \hline
+		460 & 638.5288235 \\ \hline
+		470 & 638.5288235 \\ \hline
+		480 & 638.5288235 \\ \hline
+		490 & 638.5288235 \\ \hline
+		500 & 639.0582353 \\ \hline
+\end{longtable}
+\end{center}
+%\subsection{图一:initialize细节}
+%	\begin{figure}[!ht]
+%	\centering
+%	\includegraphics[scale=0.4]{初始化流程.png}
+%	\caption*{}
+%	\begin{center}
+%		图一:initialize细节
+%	\end{center}
+%	\label{initialize细节}
+%\end{figure}
+%\subsection{图二:update1细节}
+%\begin{figure}[!ht]
+%	\centering
+%	\includegraphics[scale=0.4]{update1.png}%\caption{update1细节}
+%		\caption*{}
+%	\begin{center}
+%		图二:update1细节
+%	\end{center}
+%\end{figure}
+%\subsection{图三:update2细节}
+%\begin{figure}[!ht]
+%	\centering
+%	\includegraphics[scale=0.4]{update2.png}%\caption{update2细节}
+%			\caption*{}
+%	\begin{center}
+%		图三:update2细节
+%	\end{center}
+%\end{figure}
+\end{appendix}
+	% Set the acknowledgements
+	\newpage
+	\addcontentsline{toc}{section}{致谢}
+	\fontsize{12pt}{14.4}\selectfont\songti
+\section*{致谢}
+	非常感谢导师李玉玲的指导和耐心解答，没有导师的指导和建议，我或许会犯不少错误；我还要感谢不懈奋斗的自己，没有因为遇到难障碍就退缩不前，而是不断寻找解决问题的方法并攻克难关。此外，我要感谢父母给我的物质和精神上的双重支持，是他们给予了我勇敢向前的力量。最后，非常感谢北京师范大学图书馆和北京师范大学提供的数据库访问权限，这些优质的数据库对我撰写论文提供了巨大的帮助。
+\end{document}
